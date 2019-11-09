@@ -48,7 +48,7 @@ MAX = 43`);
       expect(constants).to.deep.equal({ MIN: 42, MAX: 43 });
     });
   });
-  context('when parsing applications', () => {
+  context('when parsing an application', () => {
     context('with no custom configuration', () => {
       let application;
 
@@ -176,7 +176,7 @@ application {
           it('should parse the list', () => {
             expect(application.entities.entityList).to.deep.equal(['*']);
           });
-          it('should parse the list', () => {
+          it('should parse the excluded list', () => {
             expect(application.entities.excluded).to.deep.equal(['A']);
           });
         });
@@ -197,7 +197,7 @@ application {
           it('should parse the list', () => {
             expect(application.entities.entityList).to.deep.equal(['*']);
           });
-          it('should parse the list', () => {
+          it('should parse the excluded list', () => {
             expect(application.entities.excluded).to.deep.equal(['A']);
           });
         });
