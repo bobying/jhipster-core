@@ -63,7 +63,8 @@ MAX = 43`);
           entities: {
             entityList: [],
             excluded: []
-          }
+          },
+          options: []
         });
       });
     });
@@ -89,7 +90,8 @@ MAX = 43`);
           entities: {
             entityList: [],
             excluded: []
-          }
+          },
+          options: []
         });
       });
     });
@@ -124,7 +126,8 @@ application {
             entities: {
               entityList: [],
               excluded: []
-            }
+            },
+            options: []
           },
           {
             config: {
@@ -134,7 +137,8 @@ application {
             entities: {
               entityList: [],
               excluded: []
-            }
+            },
+            options: []
           }
         ]);
       });
@@ -173,7 +177,7 @@ application {
             application = content.applications[0];
           });
 
-          it('should parse the list', () => {
+          it('should parse the entity list', () => {
             expect(application.entities.entityList).to.deep.equal(['*']);
           });
           it('should parse the excluded list', () => {
@@ -194,13 +198,69 @@ application {
             application = content.applications[0];
           });
 
-          it('should parse the list', () => {
+          it('should parse the entity list', () => {
             expect(application.entities.entityList).to.deep.equal(['*']);
           });
           it('should parse the excluded list', () => {
             expect(application.entities.excluded).to.deep.equal(['A']);
           });
         });
+      });
+    });
+    context('when having options', () => {
+      let application;
+
+      before(() => {
+        const content = parseFromContent(`application {
+  config {
+    baseName superApp
+    applicationType monolith
+  }
+  
+  entities all
+  
+  dto A with mapstruct
+  readOnly B, C
+  paginate * with pagination except D
+  paginate D with infinite-scroll
+  skipClient * except E
+}`);
+        application = content.applications[0];
+      });
+
+      it('should parse the options', () => {
+        expect(application.options).to.deep.equal([
+          {
+            excluded: undefined,
+            list: ['A'],
+            name: 'dto',
+            value: 'mapstruct'
+          },
+          {
+            excluded: undefined,
+            list: ['B', 'C'],
+            name: 'readOnly',
+            value: undefined
+          },
+          {
+            excluded: ['D'],
+            list: ['*'],
+            name: 'pagination',
+            value: 'pagination'
+          },
+          {
+            excluded: undefined,
+            list: ['D'],
+            name: 'pagination',
+            value: 'infinite-scroll'
+          },
+          {
+            excluded: ['E'],
+            list: ['*'],
+            name: 'noClient',
+            value: undefined
+          }
+        ]);
       });
     });
   });
