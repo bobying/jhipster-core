@@ -507,6 +507,7 @@ describe('DocumentParser', () => {
             skipServer: false,
             skipUserManagement: false,
             useSass: true,
+            webService: false,
             websocket: false
           });
         });

@@ -59,6 +59,7 @@ describe('AbstractJDLApplication', () => {
           skipClient: false,
           skipServer: false,
           skipUserManagement: false,
+          webService: false,
           websocket: false
         });
       });
@@ -253,6 +254,7 @@ describe('AbstractJDLApplication', () => {
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType false
+    webService false
     skipClient false
     skipServer false
     testFrameworks []
@@ -290,6 +292,7 @@ describe('AbstractJDLApplication', () => {
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType false
+    webService false
     skipClient false
     skipServer false
     testFrameworks []

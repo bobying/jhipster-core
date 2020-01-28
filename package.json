@@ -11,7 +11,7 @@
   "scripts": {
     "bundle": "node ./scripts/bundle.js && webpack",
     "diagrams": "node ./scripts/serialize_grammar.js && eslint lib/dsl/gen/generated_serialized_grammar.js --fix",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "lint-fix": "npm run lint -- --fix",
     "posttest": "nyc --reporter=text-summary report",
     "prepare": "npm run test && npm run diagrams && npm run bundle",

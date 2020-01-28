@@ -56,6 +56,7 @@ describe('JSONToJDLConverter', () => {
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType eureka
+    webService false
     skipClient true
     testFrameworks []
     websocket false
@@ -104,6 +105,7 @@ describe('JSONToJDLConverter', () => {
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType eureka
+    webService false
     skipClient true
     testFrameworks []
     websocket false
@@ -233,6 +235,7 @@ paginate Country with pager
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType eureka
+    webService false
     skipClient true
     testFrameworks []
     websocket false
@@ -267,6 +270,7 @@ application {
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType eureka
+    webService false
     skipClient true
     testFrameworks []
     websocket false
@@ -301,6 +305,7 @@ application {
     prodDatabaseType mysql
     searchEngine false
     serviceDiscoveryType eureka
+    webService false
     skipClient true
     testFrameworks []
     websocket false
