@@ -161,7 +161,7 @@ describe('JDL DSL API', () => {
       });
 
       it('provides suggestions', () => {
-        expect(result).to.have.lengthOf(5);
+        expect(result).to.have.lengthOf(6);
         // Note that because we are using token Inheritance with the MIN_MAX_KEYWORD an auto-complete provider would have
         // to translate this to concrete tokens (MIN/MAX/MAX_BYTES/MIN_BYTES/...)
         expect(result).to.have.members([
@@ -169,6 +169,7 @@ describe('JDL DSL API', () => {
           tokens.UNIQUE,
           tokens.MIN_MAX_KEYWORD,
           tokens.PATTERN,
+          tokens.READONLY,
           tokens.JAVADOC
         ]);
       });
@@ -182,12 +183,13 @@ describe('JDL DSL API', () => {
       });
 
       it('provides suggestions', () => {
-        expect(result).to.have.lengthOf(9);
+        expect(result).to.have.lengthOf(10);
         expect(result).to.have.members([
           tokens.REQUIRED,
           tokens.UNIQUE,
           tokens.MIN_MAX_KEYWORD,
           tokens.PATTERN,
+          tokens.READONLY,
           // Note that this will have more suggestions than the previous spec as there is a deeper rule stack.
           tokens.COMMA,
           tokens.RCURLY,

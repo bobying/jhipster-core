@@ -100,6 +100,49 @@ describe('ValidationConverter', () => {
           });
         });
       });
+      context('having for name the readonly validation', () => {
+        context('with the readonly not having single quotes', () => {
+          let valueFromTheConvertedValidation;
+
+          before(() => {
+            const convertedJDLValidations = convertValidations(
+              [
+                {
+                  key: 'readonly',
+                  value: '/d+/'
+                }
+              ],
+              () => {}
+            );
+            valueFromTheConvertedValidation = convertedJDLValidations[0].value;
+          });
+
+          it('should not format the value', () => {
+            expect(valueFromTheConvertedValidation).to.equal('/d+/');
+          });
+        });
+        context('with the readonly having single quotes', () => {
+          let valueFromTheConvertedValidation;
+
+          before(() => {
+            const convertedJDLValidations = convertValidations(
+              [
+                {
+                  key: 'readonly',
+                  value: "/[A-Z']/"
+                }
+              ],
+              () => {}
+            );
+            valueFromTheConvertedValidation = convertedJDLValidations[0].value;
+          });
+          /*
+          it('should format it', () => {
+            expect(valueFromTheConvertedValidation).to.equal("/[A-Z\\\\']/\\");
+          });
+          */
+        });
+      });
       context('having one falsy element', () => {
         let expectedValidations;
         let convertedJDLValidations;

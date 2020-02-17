@@ -68,6 +68,17 @@ describe('TokenCreator', () => {
           expect(token.LABEL).to.equal("'pattern'");
         });
       });
+      context('if there is no label but a readonly', () => {
+        let token;
+
+        before(() => {
+          token = createTokenFromConfig({ name: 'MY_TOKEN', pattern: 'readonly' });
+        });
+
+        it('should set a label from the readonly', () => {
+          expect(token.LABEL).to.equal("'readonly'");
+        });
+      });
     });
   });
 });

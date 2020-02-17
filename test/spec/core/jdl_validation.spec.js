@@ -90,5 +90,15 @@ describe('JDLValidation', () => {
         ).to.equal('pattern(/[A-z0-9]/)');
       });
     });
+    context('when exporting a regexp readonly pattern', () => {
+      it('properly formats it', () => {
+        expect(
+          new JDLValidation({
+            name: Validations.READONLY,
+            value: '[A-z0-9]'
+          }).toString()
+        ).to.equal('readonly(/[A-z0-9]/)');
+      });
+    });
   });
 });

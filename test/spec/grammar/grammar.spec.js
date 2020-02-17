@@ -30,6 +30,7 @@ const {
   MINBYTES,
   MINLENGTH,
   PATTERN,
+  READONLY,
   REQUIRED,
   UNIQUE
 } = require('../../../lib/core/jhipster/validations');
@@ -595,6 +596,28 @@ entity A`);
             expect(parsedEntity.body[0].validations).to.deep.equal([
               {
                 key: PATTERN,
+                value: '[A-Za-z]\\d'
+              }
+            ]);
+          });
+        });
+        context(`with the ${READONLY} validation`, () => {
+          let parsedEntity;
+
+          before(() => {
+            const content = parseFromContent(
+              `entity A {
+  name String ${READONLY}(/[A-Za-z]\\d/)
+}
+`
+            );
+            parsedEntity = content.entities[0];
+          });
+
+          it('should parse it', () => {
+            expect(parsedEntity.body[0].validations).to.deep.equal([
+              {
+                key: READONLY,
                 value: '[A-Za-z]\\d'
               }
             ]);

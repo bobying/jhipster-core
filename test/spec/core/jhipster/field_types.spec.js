@@ -142,6 +142,11 @@ describe('FieldTypes', () => {
         expect(FieldTypes.hasValidation(FieldTypes.CassandraTypes.BIG_DECIMAL, Validations.PATTERN)).to.be.false;
       });
     });
+    context('when passing a false argument', () => {
+      it('returns false', () => {
+        expect(FieldTypes.hasValidation(FieldTypes.CassandraTypes.BIG_DECIMAL, Validations.READONLY)).to.be.false;
+      });
+    });
     context('when passing a valid argument', () => {
       it('returns true', () => {
         expect(FieldTypes.hasValidation(FieldTypes.CassandraTypes.BIG_DECIMAL, Validations.MIN)).to.be.true;
