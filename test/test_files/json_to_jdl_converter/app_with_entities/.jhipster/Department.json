@@ -10,7 +10,7 @@
     },
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": "required",
+      "relationshipValidateRules": ["required"],
       "relationshipName": "location",
       "otherEntityName": "location",
       "otherEntityField": "id",

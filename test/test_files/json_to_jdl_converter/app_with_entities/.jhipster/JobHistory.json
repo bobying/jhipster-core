@@ -4,7 +4,7 @@
   "relationships": [
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": "required",
+      "relationshipValidateRules": ["required"],
       "relationshipName": "department",
       "otherEntityName": "department",
       "otherEntityField": "id",
@@ -13,7 +13,7 @@
     },
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": "required",
+      "relationshipValidateRules": ["required"],
       "relationshipName": "job",
       "otherEntityName": "job",
       "otherEntityField": "id",
@@ -22,7 +22,7 @@
     },
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": "required",
+      "relationshipValidateRules": ["required"],
       "relationshipName": "employee",
       "otherEntityName": "employee",
       "otherEntityField": "id",

@@ -3,7 +3,7 @@
   "relationships": [
     {
       "relationshipType": "many-to-many",
-      "relationshipValidateRules": "required",
+      "relationshipValidateRules": ["required"],
       "relationshipName": "job",
       "otherEntityName": "job",
       "ownerSide": false,

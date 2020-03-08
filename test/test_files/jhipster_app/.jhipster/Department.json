@@ -11,7 +11,7 @@
     },
     {
       "relationshipType": "one-to-many",
-      "relationshipValidateRules": "required",
+      "relationshipValidateRules": ["required"],
       "relationshipName": "employee",
       "otherEntityName": "employee",
       "javadoc": "A relationship",

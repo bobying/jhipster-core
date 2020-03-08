@@ -217,7 +217,7 @@ describe('EntityParser', () => {
                 ownerSide: true,
                 relationshipName: 'b',
                 relationshipType: 'one-to-one',
-                relationshipValidateRules: 'required'
+                relationshipValidateRules: ['required']
               }
             ],
             service: 'no',

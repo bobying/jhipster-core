@@ -5,7 +5,7 @@
             "relationshipName": "userOneToMany",
             "otherEntityName": "user",
             "relationshipType": "many-to-one",
-            "relationshipValidateRules": "required",
+            "relationshipValidateRules": ["required"],
             "otherEntityField": "login"
         },
         {
