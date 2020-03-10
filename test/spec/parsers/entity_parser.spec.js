@@ -211,7 +211,7 @@ describe('EntityParser', () => {
             readOnly: true,
             relationships: [
               {
-                otherEntityField: 'id',
+                otherEntityField: ['id'],
                 otherEntityName: 'entityB',
                 otherEntityRelationshipName: 'a',
                 ownerSide: true,
@@ -426,7 +426,7 @@ describe('EntityParser', () => {
               relationshipName: 'bbbb',
               otherEntityName: 'b',
               relationshipType: 'one-to-one',
-              otherEntityField: 'id',
+              otherEntityField: ['id'],
               ownerSide: true,
               otherEntityRelationshipName: 'aaaa'
             },
@@ -441,7 +441,7 @@ describe('EntityParser', () => {
               relationshipName: 'bbb',
               otherEntityName: 'b',
               relationshipType: 'many-to-many',
-              otherEntityField: 'id',
+              otherEntityField: ['id'],
               ownerSide: true,
               otherEntityRelationshipName: 'aaa'
             }
@@ -458,7 +458,7 @@ describe('EntityParser', () => {
               relationshipName: 'a',
               otherEntityName: 'a',
               relationshipType: 'many-to-one',
-              otherEntityField: 'id',
+              otherEntityField: ['id'],
               otherEntityRelationshipName: 'b',
               options: { myCustomOption: 'myCustomValue' }
             },
@@ -467,7 +467,7 @@ describe('EntityParser', () => {
               otherEntityName: 'a',
               relationshipType: 'many-to-many',
               ownerSide: false,
-              otherEntityField: 'id',
+              otherEntityField: ['id'],
               otherEntityRelationshipName: 'bbb'
             }
           ]);

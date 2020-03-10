@@ -6,20 +6,20 @@
             "otherEntityName": "user",
             "relationshipType": "many-to-one",
             "relationshipValidateRules": ["required"],
-            "otherEntityField": "login"
+            "otherEntityField": ["login"]
         },
         {
             "relationshipName": "userManyToMany",
             "otherEntityName": "user",
             "relationshipType": "many-to-many",
-            "otherEntityField": "login",
+            "otherEntityField": ["login"],
             "ownerSide": true
         },
         {
             "relationshipName": "userOneToOne",
             "otherEntityName": "user",
             "relationshipType": "one-to-one",
-            "otherEntityField": "login",
+            "otherEntityField": ["login"],
             "ownerSide": true,
             "otherEntityRelationshipName": "parent"
         }
