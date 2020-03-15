@@ -5,7 +5,7 @@
       "relationshipType": "one-to-one",
       "relationshipName": "job",
       "otherEntityName": "job",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     },
@@ -13,7 +13,7 @@
       "relationshipType": "one-to-one",
       "relationshipName": "department",
       "otherEntityName": "department",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     },
@@ -21,7 +21,7 @@
       "relationshipType": "one-to-one",
       "relationshipName": "employee",
       "otherEntityName": "employee",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     }

@@ -7,7 +7,7 @@
       "relationshipValidateRules": ["required"],
       "relationshipName": "department",
       "otherEntityName": "department",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     },
@@ -16,7 +16,7 @@
       "relationshipValidateRules": ["required"],
       "relationshipName": "job",
       "otherEntityName": "job",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     },
@@ -25,7 +25,7 @@
       "relationshipValidateRules": ["required"],
       "relationshipName": "employee",
       "otherEntityName": "employee",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     }

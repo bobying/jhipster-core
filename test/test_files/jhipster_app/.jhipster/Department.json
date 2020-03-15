@@ -5,7 +5,7 @@
       "relationshipType": "one-to-one",
       "relationshipName": "location",
       "otherEntityName": "location",
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "ownerSide": true,
       "otherEntityRelationshipName": "department"
     },
@@ -18,7 +18,7 @@
       "otherEntityRelationshipName": "department"
     },
     {
-      "otherEntityField": "id",
+      "otherEntityField": ["id"],
       "otherEntityName": "jobHistory",
       "otherEntityRelationshipName": "department",
       "ownerSide": false,

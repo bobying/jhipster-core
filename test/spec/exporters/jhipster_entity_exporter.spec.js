@@ -186,7 +186,7 @@ describe('JHipsterEntityExporter', () => {
                     relationshipType: 'many-to-one',
                     relationshipName: 'location',
                     otherEntityName: 'location',
-                    otherEntityField: 'id'
+                    otherEntityField: ['id']
                   }
                 ],
                 changelogDate: '20180303092308',
@@ -254,7 +254,7 @@ describe('JHipsterEntityExporter', () => {
                     relationshipType: 'many-to-one',
                     relationshipName: 'store',
                     otherEntityName: 'localStore',
-                    otherEntityField: 'id'
+                    otherEntityField: ['id']
                   }
                 ],
                 changelogDate: '20180303092311',
@@ -287,7 +287,7 @@ describe('JHipsterEntityExporter', () => {
                     relationshipType: 'many-to-one',
                     relationshipName: 'location',
                     otherEntityName: 'location',
-                    otherEntityField: 'id'
+                    otherEntityField: ['id']
                   }
                 ],
                 changelogDate: '20180303092308',
@@ -355,7 +355,7 @@ describe('JHipsterEntityExporter', () => {
                     relationshipType: 'many-to-one',
                     relationshipName: 'store',
                     otherEntityName: 'localStore',
-                    otherEntityField: 'id'
+                    otherEntityField: ['id']
                   }
                 ],
                 changelogDate: '20180303092311',
@@ -518,7 +518,7 @@ describe('JHipsterEntityExporter', () => {
                       relationshipType: 'many-to-one',
                       relationshipName: 'location',
                       otherEntityName: 'location',
-                      otherEntityField: 'id'
+                      otherEntityField: ['id']
                     }
                   ],
                   changelogDate: '20180303093006',
@@ -586,7 +586,7 @@ describe('JHipsterEntityExporter', () => {
                       relationshipType: 'many-to-one',
                       relationshipName: 'store',
                       otherEntityName: 'localStore',
-                      otherEntityField: 'id'
+                      otherEntityField: ['id']
                     }
                   ],
                   changelogDate: '20180303093009',
