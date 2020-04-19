@@ -26,13 +26,13 @@ const JHipsterDeploymentExporter = require('../../../lib/exporters/jhipster_depl
 const JDLDeployment = require('../../../lib/core/jdl_deployment');
 
 describe('JHipsterDeploymentExporter', () => {
-  describe('::exportDeployments', () => {
+  describe('exportDeployments', () => {
     context('when passing invalid parameters', () => {
       context('such as undefined', () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JHipsterDeploymentExporter.exportDeployments();
-          }).to.throw('Deployments have to be passed to be exported.');
+          }).to.throw(/^Deployments have to be passed to be exported\.$/);
         });
       });
     });
@@ -55,7 +55,7 @@ describe('JHipsterDeploymentExporter', () => {
           });
         });
 
-        it('returns the exported deployments', () => {
+        it('should return the exported deployments', () => {
           expect(returned).to.have.lengthOf(2);
         });
         context('for the first deployment', () => {
@@ -76,11 +76,11 @@ describe('JHipsterDeploymentExporter', () => {
             fs.rmdirSync('docker-compose');
           });
 
-          it('exports it', done => {
+          it('should exports it', done => {
             fs.readFile(path.join('docker-compose', '.yo-rc.json'), { encoding: 'utf8' }, done);
           });
 
-          it('formats it', () => {
+          it('should format it', () => {
             expect(content['generator-jhipster']).not.to.be.undefined;
             const config = content['generator-jhipster'];
             expect(config).to.deep.equal({
@@ -115,11 +115,11 @@ describe('JHipsterDeploymentExporter', () => {
             fs.rmdirSync('kubernetes');
           });
 
-          it('exports it', done => {
+          it('should exports it', done => {
             fs.readFile(path.join('kubernetes', '.yo-rc.json'), { encoding: 'utf8' }, done);
           });
 
-          it('formats it', () => {
+          it('should format it', () => {
             expect(content['generator-jhipster']).not.to.be.undefined;
             const config = content['generator-jhipster'];
             expect(config).to.deep.equal({

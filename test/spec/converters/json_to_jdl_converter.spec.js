@@ -29,6 +29,7 @@ describe('JSONToJDLConverter', () => {
       let dir;
       let jdlFilename;
       let jdlFileContent;
+
       context('without entities', () => {
         before(() => {
           dir = path.join('test', 'test_files', 'json_to_jdl_converter', 'only_app');
@@ -40,38 +41,37 @@ describe('JSONToJDLConverter', () => {
           fs.unlinkSync(path.join(dir, jdlFilename));
         });
 
-        it('writes a JDL file with the application', () => {
+        it('should write a JDL file with the application', () => {
           expect(jdlFileContent).to.equal(`application {
   config {
+    applicationType microservice
+    authenticationType jwt
+    baseName truc
+    buildTool maven
+    cacheProvider hazelcast
+    clientPackageManager npm
     databaseType sql
     devDatabaseType h2Disk
+    dtoSuffix DTO
     enableHibernateCache true
     enableSwaggerCodegen false
     enableTranslation false
     jhiPrefix jhi
+    jhipsterVersion "6.0.1"
+    jwtSecretKey "HIDDEN"
     languages [en, fr]
     messageBroker false
     nativeLanguage en
+    otherModules []
     packageName com.mycompany.myapp
     prodDatabaseType mysql
     searchEngine false
+    serverPort 8081
     serviceDiscoveryType eureka
-    webService false
     skipClient true
+    skipUserManagement true
     testFrameworks []
     websocket false
-    jhipsterVersion "6.0.1"
-    applicationType microservice
-    baseName truc
-    serverPort 8081
-    authenticationType jwt
-    cacheProvider hazelcast
-    buildTool maven
-    jwtSecretKey "HIDDEN"
-    dtoSuffix DTO
-    otherModules []
-    clientPackageManager npm
-    skipUserManagement true
   }
 }
 
@@ -89,38 +89,38 @@ describe('JSONToJDLConverter', () => {
           fs.unlinkSync(path.join(dir, jdlFilename));
         });
 
-        it('exports apps & entities', () => {
+        it('should export apps & entities', () => {
           expect(jdlFileContent).to.equal(`application {
   config {
+    applicationType microservice
+    authenticationType jwt
+    baseName truc
+    buildTool maven
+    cacheProvider hazelcast
+    clientPackageManager npm
     databaseType sql
     devDatabaseType h2Disk
+    dtoSuffix DTO
     enableHibernateCache true
     enableSwaggerCodegen false
     enableTranslation false
     jhiPrefix jhi
+    jhipsterVersion "6.0.1"
+    jwtSecretKey "HIDDEN"
     languages [en, fr]
     messageBroker false
     nativeLanguage en
+    otherModules []
     packageName com.mycompany.myapp
     prodDatabaseType mysql
     searchEngine false
+    serverPort 8081
     serviceDiscoveryType eureka
     webService false
     skipClient true
+    skipUserManagement true
     testFrameworks []
     websocket false
-    jhipsterVersion "6.0.1"
-    applicationType microservice
-    baseName truc
-    serverPort 8081
-    authenticationType jwt
-    cacheProvider hazelcast
-    buildTool maven
-    jwtSecretKey "HIDDEN"
-    dtoSuffix DTO
-    otherModules []
-    clientPackageManager npm
-    skipUserManagement true
   }
 
   entities Country, Department, Employee, Job, JobHistory, Location, Region, Task
@@ -219,108 +219,108 @@ paginate Country with pager
           fs.unlinkSync(path.join(rootDir, jdlFilename));
         });
 
-        it('exports each app', () => {
+        it('should export each app', () => {
           expect(jdlFileContent).to.equal(`application {
   config {
+    applicationType microservice
+    authenticationType jwt
+    baseName app1
+    buildTool maven
+    cacheProvider hazelcast
+    clientPackageManager npm
     databaseType sql
     devDatabaseType h2Disk
+    dtoSuffix DTO
     enableHibernateCache true
     enableSwaggerCodegen false
     enableTranslation false
     jhiPrefix jhi
+    jhipsterVersion "6.0.1"
+    jwtSecretKey "HIDDEN"
     languages [en, fr]
     messageBroker false
     nativeLanguage en
+    otherModules []
     packageName com.mycompany.app1
     prodDatabaseType mysql
     searchEngine false
+    serverPort 8081
     serviceDiscoveryType eureka
     webService false
     skipClient true
+    skipUserManagement true
     testFrameworks []
     websocket false
-    jhipsterVersion "6.0.1"
-    applicationType microservice
-    baseName app1
-    serverPort 8081
-    authenticationType jwt
-    cacheProvider hazelcast
-    buildTool maven
-    jwtSecretKey "HIDDEN"
-    dtoSuffix DTO
-    otherModules []
-    clientPackageManager npm
-    skipUserManagement true
   }
 
   entities Region
 }
 application {
   config {
+    applicationType microservice
+    authenticationType jwt
+    baseName app2
+    buildTool maven
+    cacheProvider hazelcast
+    clientPackageManager npm
     databaseType sql
     devDatabaseType h2Disk
+    dtoSuffix DTO
     enableHibernateCache true
     enableSwaggerCodegen false
     enableTranslation false
     jhiPrefix jhi
+    jhipsterVersion "6.0.1"
+    jwtSecretKey "HIDDEN"
     languages [en, fr]
     messageBroker false
     nativeLanguage en
+    otherModules []
     packageName com.mycompany.app2
     prodDatabaseType mysql
     searchEngine false
+    serverPort 8081
     serviceDiscoveryType eureka
     webService false
     skipClient true
+    skipUserManagement true
     testFrameworks []
     websocket false
-    jhipsterVersion "6.0.1"
-    applicationType microservice
-    baseName app2
-    serverPort 8081
-    authenticationType jwt
-    cacheProvider hazelcast
-    buildTool maven
-    jwtSecretKey "HIDDEN"
-    dtoSuffix DTO
-    otherModules []
-    clientPackageManager npm
-    skipUserManagement true
   }
 
   entities Country, Location
 }
 application {
   config {
+    applicationType microservice
+    authenticationType jwt
+    baseName app3
+    buildTool maven
+    cacheProvider hazelcast
+    clientPackageManager npm
     databaseType sql
     devDatabaseType h2Disk
+    dtoSuffix DTO
     enableHibernateCache true
     enableSwaggerCodegen false
     enableTranslation false
     jhiPrefix jhi
+    jhipsterVersion "6.0.1"
+    jwtSecretKey "HIDDEN"
     languages [en, fr]
     messageBroker false
     nativeLanguage en
+    otherModules []
     packageName com.mycompany.app3
     prodDatabaseType mysql
     searchEngine false
+    serverPort 8081
     serviceDiscoveryType eureka
     webService false
     skipClient true
+    skipUserManagement true
     testFrameworks []
     websocket false
-    jhipsterVersion "6.0.1"
-    applicationType microservice
-    baseName app3
-    serverPort 8081
-    authenticationType jwt
-    cacheProvider hazelcast
-    buildTool maven
-    jwtSecretKey "HIDDEN"
-    dtoSuffix DTO
-    otherModules []
-    clientPackageManager npm
-    skipUserManagement true
   }
 }
 

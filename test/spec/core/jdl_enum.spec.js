@@ -22,28 +22,28 @@ const { expect } = require('chai');
 const JDLEnum = require('../../../lib/core/jdl_enum');
 
 describe('JDLEnum', () => {
-  describe('::new', () => {
+  describe('new', () => {
     context('when not passing any argument', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLEnum();
         }).to.throw("The enum's name must be passed to create an enum.");
       });
     });
     context('when not passing a name', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLEnum({ values: ['ABC'], comment: 'My enumeration.' });
         }).to.throw("The enum's name must be passed to create an enum.");
       });
     });
     context('when passing arguments', () => {
-      it('uses them', () => {
+      it('should use them', () => {
         new JDLEnum({ name: 'MyEnum', values: [{ key: 'ABC' }] });
       });
     });
   });
-  describe('#getValuesAsString', () => {
+  describe('getValuesAsString', () => {
     let result;
 
     before(() => {
@@ -51,11 +51,11 @@ describe('JDLEnum', () => {
       result = jdlEnum.getValuesAsString();
     });
 
-    it('returns the values separated by a comma', () => {
+    it('should return the values separated by a comma', () => {
       expect(result).to.equal('A (aaaa),B');
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     context('with simple enum values', () => {
       let values = [];
       let jdlEnum;
@@ -70,7 +70,7 @@ describe('JDLEnum', () => {
       });
 
       it('should stringify the enum', () => {
-        expect(jdlEnum.toString()).to.eq(
+        expect(jdlEnum.toString()).to.equal(
           `/**
  * ${jdlEnum.comment}
  */

@@ -28,10 +28,6 @@ const LintRules = require('../lib/linter/rules');
 
 const JDLObject = require('../lib/core/jdl_object');
 const ValidatedJDLObject = require('../lib/core/validated_jdl_object');
-const JDLMonolithApplication = require('../lib/core/jdl_monolith_application');
-const JDLGatewayApplication = require('../lib/core/jdl_gateway_application');
-const JDLMicroserviceApplication = require('../lib/core/jdl_microservice_application');
-const JDLUaaApplication = require('../lib/core/jdl_uaa_application');
 const JDLEntity = require('../lib/core/jdl_entity');
 const JDLField = require('../lib/core/jdl_field');
 const JDLValidation = require('../lib/core/jdl_validation');
@@ -64,10 +60,7 @@ const ObjectUtils = require('../lib/utils/object_utils');
 const FormatUtils = require('../lib/utils/format_utils');
 const StringUtils = require('../lib/utils/string_utils');
 
-const newAPI = require('./new_index');
-
 module.exports = {
-  ...newAPI,
   /* JHipster notions */
   JHipsterApplicationTypes: ApplicationTypes,
   JHipsterBinaryOptions: BinaryOptions,
@@ -83,10 +76,6 @@ module.exports = {
   /* JDL objects */
   JDLObject,
   ValidatedJDLObject,
-  JDLMonolithApplication,
-  JDLGatewayApplication,
-  JDLMicroserviceApplication,
-  JDLUaaApplication,
   JDLEntity,
   JDLField,
   JDLValidation,
@@ -119,7 +108,6 @@ module.exports = {
   convertJsonServerOptionsToJDL: convertServerOptionsToJDL,
   /* Entity exporting to JSON */
   exportEntities: JHipsterEntityExporter.exportEntities,
-  exportEntitiesInApplications: JHipsterEntityExporter.exportEntitiesInApplications,
   /* Application exporting */
   exportApplications: JHipsterApplicationExporter.exportApplications,
   exportApplication: JHipsterApplicationExporter.exportApplication,

@@ -25,26 +25,26 @@ const { expect } = require('chai');
 const { createFolderIfItDoesNotExist, doesFileExist, doesDirectoryExist } = require('../../../lib/utils/file_utils');
 
 describe('FileUtils', () => {
-  describe('::doesFileExist', () => {
+  describe('doesFileExist', () => {
     context('when checking a file path', () => {
       context('with a nil file path', () => {
-        it('returns false', () => {
+        it('should return false', () => {
           expect(doesFileExist()).to.be.false;
         });
       });
       context('with an invalid file path', () => {
-        it('returns false', () => {
+        it('should return false', () => {
           expect(doesFileExist('someInvalidPath')).to.be.false;
         });
       });
       context('with a valid file path', () => {
-        it('returns true', () => {
+        it('should return true', () => {
           expect(doesFileExist('./test/test_files/MyEntity.json')).to.be.true;
         });
       });
     });
   });
-  describe('::doesDirectoryExist', () => {
+  describe('doesDirectoryExist', () => {
     context('when checking a directory path', () => {
       context('with a nil directory path', () => {
         it('return false', () => {
@@ -52,23 +52,23 @@ describe('FileUtils', () => {
         });
       });
       context('with an invalid directory path', () => {
-        it('returns false', () => {
+        it('should return false', () => {
           expect(doesDirectoryExist('./someInvalidPath')).to.be.false;
         });
       });
       context('with a valid directory path', () => {
-        it('returns true', () => {
+        it('should return true', () => {
           expect(doesDirectoryExist('./test/test_files/')).to.be.true;
         });
       });
     });
   });
-  describe('::createFolderIfItDoesNotExist', () => {
+  describe('createFolderIfItDoesNotExist', () => {
     context('when not passing a directory', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           createFolderIfItDoesNotExist();
-        }).to.throw('A directory must be passed to be created.');
+        }).to.throw(/^A directory must be passed to be created\.$/);
       });
     });
     context('when passing a directory that does not yet exist', () => {
@@ -80,15 +80,15 @@ describe('FileUtils', () => {
         fs.rmdirSync('./here');
       });
 
-      it('creates it', () => {
+      it('should create it', () => {
         expect(fs.statSync('./here').isDirectory()).to.be.true;
       });
     });
     context('when passing a file that exists', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           createFolderIfItDoesNotExist('./package.json');
-        }).to.throw("The directory to create './package.json' is a file.");
+        }).to.throw(/^The directory to create '\.\/package.json' is a file\.$/);
       });
     });
     context('when passing a directory that exists', () => {
@@ -96,7 +96,7 @@ describe('FileUtils', () => {
         createFolderIfItDoesNotExist('./test');
       });
 
-      it('does nothing', () => {
+      it('should do nothing', () => {
         expect(fs.statSync('./test').isDirectory()).to.be.true;
       });
     });
@@ -111,7 +111,7 @@ describe('FileUtils', () => {
         fs.rmdirSync('toto');
       });
 
-      it('creates the folder structure recursively', () => {
+      it('should create the folder structure recursively', () => {
         expect(fs.statSync('toto').isDirectory()).to.be.true;
         expect(fs.statSync(path.join('toto', 'titi')).isDirectory()).to.be.true;
         expect(fs.statSync(path.join('toto', 'titi', 'tutu')).isDirectory()).to.be.true;

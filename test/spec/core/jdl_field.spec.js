@@ -26,23 +26,23 @@ const JDLValidation = require('../../../lib/core/jdl_validation');
 const Validations = require('../../../lib/core/jhipster/validations');
 
 describe('JDLField', () => {
-  describe('::new', () => {
+  describe('new', () => {
     context('when not passing any argument', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLField();
         }).to.throw('The field name and type are mandatory to create a field.');
       });
     });
     context('when not passing the name', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLField({ name: null, type: 'String' });
         }).to.throw('The field name and type are mandatory to create a field.');
       });
     });
     context('when not passing the type', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLField({ name: 'abc', type: null });
         }).to.throw('The field name and type are mandatory to create a field.');
@@ -62,19 +62,19 @@ describe('JDLField', () => {
         field = new JDLField(args);
       });
 
-      it('creates a new instance', () => {
+      it('should create a new instance', () => {
         expect(field).to.satisfy(matchField);
       });
     });
     context('when passing a reserved keyword as name', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLField({ name: 'class', type: 'String' });
         }).to.throw('The field name cannot be a reserved keyword, got: class.');
       });
     });
   });
-  describe('#addValidation', () => {
+  describe('addValidation', () => {
     let field;
 
     before(() => {
@@ -87,14 +87,14 @@ describe('JDLField', () => {
 
     context('when adding an invalid validation', () => {
       context('because it is null', () => {
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             field.addValidation(null);
           }).to.throw(/^Can't add invalid validation\. Error: No validation\.$/);
         });
       });
       context('because there is no value where it should', () => {
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             field.addValidation({ name: Validations.MIN });
           }).to.throw(/^Can't add invalid validation\. Error: The validation min requires a value\.$/);
@@ -109,7 +109,7 @@ describe('JDLField', () => {
         field.addValidation(validation);
       });
 
-      it('works', () => {
+      it('should add it', () => {
         field.forEachValidation(validation => {
           expect(validation.name).to.equal(Validations.MIN);
           expect(validation.value).to.equal(42);
@@ -117,7 +117,7 @@ describe('JDLField', () => {
       });
     });
   });
-  describe('#forEachValidation', () => {
+  describe('forEachValidation', () => {
     context('when not passing a function', () => {
       let field;
 
@@ -158,7 +158,7 @@ describe('JDLField', () => {
       });
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     context('without comment', () => {
       let args = {};
       let field;
@@ -171,8 +171,8 @@ describe('JDLField', () => {
         field = new JDLField(args);
       });
 
-      it('stringifies the fields', () => {
-        expect(field.toString()).to.eq(`${args.name} ${args.type}`);
+      it('should stringifiy the fields', () => {
+        expect(field.toString()).to.equal(`${args.name} ${args.type}`);
       });
     });
     context('without any validation', () => {
@@ -188,8 +188,8 @@ describe('JDLField', () => {
         field = new JDLField(args);
       });
 
-      it('stringifies the fields', () => {
-        expect(field.toString()).to.eq(`/**\n * ${args.comment}\n */\n${args.name} ${args.type}`);
+      it('should stringifiy the fields', () => {
+        expect(field.toString()).to.equal(`/**\n * ${args.comment}\n */\n${args.name} ${args.type}`);
       });
     });
     context('with everything', () => {
@@ -212,8 +212,8 @@ describe('JDLField', () => {
         field = new JDLField(args);
       });
 
-      it('stringifies the field', () => {
-        expect(field.toString()).to.eq(
+      it('should stringifiy the field', () => {
+        expect(field.toString()).to.equal(
           `/**\n * ${args.comment}\n */\n` +
             `${args.name} ${args.type} ${args.validations[0].name} ` +
             `${args.validations[1].name}(${args.validations[1].value})`

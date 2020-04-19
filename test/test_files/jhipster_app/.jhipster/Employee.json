@@ -5,19 +5,19 @@
       "otherEntityName": "department",
       "javadoc": "Another side of the same relationship",
       "relationshipType": "many-to-one",
-      "otherEntityField": ["foo"]
+      "otherEntityField": "foo"
     },
     {
       "relationshipType": "one-to-many",
       "relationshipName": "job",
-      "otherEntityName": ["job"],
+      "otherEntityName": "job",
       "otherEntityRelationshipName": "employee"
     },
     {
       "relationshipType": "many-to-one",
       "relationshipName": "manager",
       "otherEntityName": "employee",
-      "otherEntityField": ["id"]
+      "otherEntityField": "id"
     }
   ],
   "fields": [
@@ -76,5 +76,6 @@
   "skipServer": true,
   "clientRootFolder": "toto",
   "applications": "*",
-  "readOnly": true
+  "readOnly": true,
+  "embedded": true
 }

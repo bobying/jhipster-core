@@ -20,11 +20,12 @@
 /* eslint-disable no-new, no-unused-expressions */
 const { expect } = require('chai');
 
+const { MONOLITH } = require('../../../lib/core/jhipster/application_types');
 const BinaryOptions = require('../../../lib/core/jhipster/binary_options');
 const UnaryOptions = require('../../../lib/core/jhipster/unary_options');
 const RelationshipTypes = require('../../../lib/core/jhipster/relationship_types');
 const ValidatedJDLObject = require('../../../lib/core/validated_jdl_object');
-const JDLMonolithApplication = require('../../../lib/core/jdl_monolith_application');
+const { createJDLApplication } = require('../../../lib/core/jdl_application_factory');
 const JDLDeployment = require('../../../lib/core/jdl_deployment');
 const JDLEntity = require('../../../lib/core/jdl_entity');
 const JDLField = require('../../../lib/core/jdl_field');
@@ -35,7 +36,7 @@ const JDLUnaryOption = require('../../../lib/core/jdl_unary_option');
 const JDLBinaryOption = require('../../../lib/core/jdl_binary_option');
 
 describe('ValidatedJDLObject', () => {
-  describe('#addApplication', () => {
+  describe('addApplication', () => {
     context('when adding an invalid application', () => {
       const object = new ValidatedJDLObject();
 
@@ -46,36 +47,25 @@ describe('ValidatedJDLObject', () => {
           }).to.throw(/^Can't add invalid application\. Error: No application\.$/);
         });
       });
-      context('such as an incomplete application', () => {
-        it('fails', () => {
-          expect(() => {
-            object.addApplication({
-              config: {
-                baseName: 'toto'
-              }
-            });
-          }).to.throw(
-            /Can't add invalid application\. Error: The application attributes authenticationType, buildTool were not found\./
-          );
-        });
-      });
     });
     context('when adding a valid application', () => {
-      let object;
-      let application;
+      let addedApplication;
+      let originalApplication;
 
       before(() => {
-        object = new ValidatedJDLObject();
-        application = new JDLMonolithApplication({ jhipsterVersion: '4.9.0' });
-        object.addApplication(application);
+        const object = new ValidatedJDLObject();
+        originalApplication = createJDLApplication({ applicationType: MONOLITH, jhipsterVersion: '4.9.0' });
+        const baseName = originalApplication.getConfigurationOptionValue('baseName');
+        object.addApplication(originalApplication);
+        addedApplication = object.applications[baseName];
       });
 
       it('works', () => {
-        expect(object.applications[application.config.baseName]).to.deep.eq(application);
+        expect(addedApplication).to.deep.equal(originalApplication);
       });
     });
   });
-  describe('#getApplicationQuantity', () => {
+  describe('getApplicationQuantity', () => {
     let jdlObject;
 
     before(() => {
@@ -90,7 +80,7 @@ describe('ValidatedJDLObject', () => {
 
     context('when having one or more applications', () => {
       before(() => {
-        jdlObject.addApplication(new JDLMonolithApplication({}));
+        jdlObject.addApplication(createJDLApplication({ applicationType: MONOLITH }));
       });
 
       it('returns the number of applications', () => {
@@ -98,7 +88,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#addDeployment', () => {
+  describe('addDeployment', () => {
     context('when adding an invalid deployment', () => {
       const object = new ValidatedJDLObject();
 
@@ -140,7 +130,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getDeploymentQuantity', () => {
+  describe('getDeploymentQuantity', () => {
     let jdlObject;
 
     before(() => {
@@ -169,13 +159,13 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#forEachApplication', () => {
+  describe('forEachApplication', () => {
     let jdlObject;
 
     before(() => {
       jdlObject = new ValidatedJDLObject();
-      jdlObject.addApplication(new JDLMonolithApplication({ config: { baseName: 'A' } }));
-      jdlObject.addApplication(new JDLMonolithApplication({ config: { baseName: 'B' } }));
+      jdlObject.addApplication(createJDLApplication({ applicationType: MONOLITH, baseName: 'A' }));
+      jdlObject.addApplication(createJDLApplication({ applicationType: MONOLITH, baseName: 'B' }));
     });
 
     context('when not passing a function', () => {
@@ -188,7 +178,7 @@ describe('ValidatedJDLObject', () => {
 
       before(() => {
         jdlObject.forEachApplication(application => {
-          result.push(application.config.baseName);
+          result.push(application.getConfigurationOptionValue('baseName'));
         });
       });
 
@@ -197,7 +187,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#addEntity', () => {
+  describe('addEntity', () => {
     context('when adding an invalid entity', () => {
       const object = new ValidatedJDLObject();
 
@@ -269,7 +259,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getEntity', () => {
+  describe('getEntity', () => {
     let jdlObject;
 
     before(() => {
@@ -291,7 +281,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getEntityQuantity', () => {
+  describe('getEntityQuantity', () => {
     let jdlObject;
 
     before(() => {
@@ -318,7 +308,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getEntityNames', () => {
+  describe('getEntityNames', () => {
     let jdlObject;
 
     before(() => {
@@ -346,7 +336,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#forEachEntity', () => {
+  describe('forEachEntity', () => {
     let jdlObject;
 
     before(() => {
@@ -374,7 +364,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#addEnum', () => {
+  describe('addEnum', () => {
     context('when adding an invalid enum', () => {
       const object = new ValidatedJDLObject();
 
@@ -425,7 +415,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getEnum', () => {
+  describe('getEnum', () => {
     let object;
 
     before(() => {
@@ -450,7 +440,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#hasEnum', () => {
+  describe('hasEnum', () => {
     let object;
 
     before(() => {
@@ -475,7 +465,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getEnumQuantity', () => {
+  describe('getEnumQuantity', () => {
     let jdlObject;
 
     before(() => {
@@ -502,7 +492,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#forEachEnum', () => {
+  describe('forEachEnum', () => {
     let jdlObject;
 
     before(() => {
@@ -530,7 +520,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#addRelationship', () => {
+  describe('addRelationship', () => {
     context('when adding an invalid relationship', () => {
       const object = new ValidatedJDLObject();
 
@@ -596,7 +586,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getRelationshipQuantity', () => {
+  describe('getRelationshipQuantity', () => {
     let jdlObject;
 
     before(() => {
@@ -626,7 +616,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#forEachRelationship', () => {
+  describe('forEachRelationship', () => {
     let jdlObject;
 
     before(() => {
@@ -668,7 +658,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#addOption', () => {
+  describe('addOption', () => {
     context('when adding an invalid option', () => {
       const object = new ValidatedJDLObject();
 
@@ -693,7 +683,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getOptionsForName', () => {
+  describe('getOptionsForName', () => {
     let jdlObject;
 
     before(() => {
@@ -743,7 +733,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#getOptionQuantity', () => {
+  describe('getOptionQuantity', () => {
     let jdlObject;
 
     before(() => {
@@ -770,7 +760,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#forEachOption', () => {
+  describe('forEachOption', () => {
     let jdlObject;
 
     before(() => {
@@ -806,7 +796,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#isEntityInMicroservice', () => {
+  describe('isEntityInMicroservice', () => {
     let jdlObject;
 
     context('when an entity is in a microservice', () => {
@@ -857,7 +847,7 @@ describe('ValidatedJDLObject', () => {
       });
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     let application;
     let deployment;
     let object;
@@ -870,7 +860,7 @@ describe('ValidatedJDLObject', () => {
 
     before(() => {
       object = new ValidatedJDLObject();
-      application = new JDLMonolithApplication({ jhipsterVersion: '4.9.0' });
+      application = createJDLApplication({ applicationType: MONOLITH, jhipsterVersion: '4.9.0' });
       object.addApplication(application);
       deployment = new JDLDeployment({
         deploymentType: 'docker-compose',

@@ -34,7 +34,7 @@ describe('JSONToJDLOptionConverter', () => {
         jdlObject = convertServerOptionsToJDL();
       });
 
-      it('returns an empty jdl object', () => {
+      it('should return an empty jdl object', () => {
         expect(jdlObject.getOptionQuantity()).to.equal(0);
       });
     });
@@ -45,7 +45,7 @@ describe('JSONToJDLOptionConverter', () => {
         jdlObject = convertServerOptionsToJDL({ 'generator-jhipster': { skipUserManagement: true } });
       });
 
-      it('returns the converted options', () => {
+      it('should return the converted options', () => {
         expect(jdlObject.getOptionsForName(SKIP_USER_MANAGEMENT)).not.to.be.undefined;
       });
     });
@@ -65,34 +65,10 @@ describe('JSONToJDLOptionConverter', () => {
         );
       });
 
-      it('adds the converted options', () => {
+      it('should add the converted options', () => {
         expect(jdlObject.getOptionsForName(SKIP_USER_MANAGEMENT)).not.to.be.undefined;
         expect(jdlObject.getOptionsForName(SKIP_CLIENT)).not.to.be.undefined;
       });
     });
   });
 });
-
-/*
-    context('when parsing app config file to JDL', () => {
-      let jdlObject;
-
-      before(() => {
-        const yoRcJson = readJsonYoFile();
-        jdlObject = parseServerOptions(yoRcJson['generator-jhipster']);
-      });
-
-      it('parses server options', () => {
-        expect(
-          jdlObject
-            .getOptions()
-            .filter(option => option.name === UnaryOptions.SKIP_CLIENT && option.entityNames.has('*')).length
-        ).to.eq(1);
-        expect(
-          jdlObject
-            .getOptions()
-            .filter(option => option.name === UnaryOptions.SKIP_SERVER && option.entityNames.has('*')).length
-        ).to.eq(1);
-      });
-    });
- */

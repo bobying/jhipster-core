@@ -24,16 +24,16 @@ const JDLField = require('../../../lib/core/jdl_field');
 const JDLValidation = require('../../../lib/core/jdl_validation');
 
 describe('JDLEntity', () => {
-  describe('::new', () => {
+  describe('new', () => {
     context('when not passing any argument', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLEntity();
         }).to.throw('The entity name is mandatory to create an entity.');
       });
     });
     context('when not passing the name', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new JDLEntity({ name: null, comment: 'My entity' });
         }).to.throw('The entity name is mandatory to create an entity.');
@@ -46,8 +46,8 @@ describe('JDLEntity', () => {
         entity = new JDLEntity({ name: 'Abc' });
       });
 
-      it('uses the names as value', () => {
-        expect(entity.tableName).to.eq('Abc');
+      it('should use the names as value', () => {
+        expect(entity.tableName).to.equal('Abc');
       });
     });
     context('when passing arguments', () => {
@@ -71,15 +71,15 @@ describe('JDLEntity', () => {
         entity = new JDLEntity(args);
       });
 
-      it('creates a new instance', () => {
-        expect(entity.name).to.eq(args.name);
-        expect(entity.tableName).to.eq(args.tableName);
-        expect(entity.comment).to.eq(args.comment);
+      it('should create a new instance', () => {
+        expect(entity.name).to.equal(args.name);
+        expect(entity.tableName).to.equal(args.tableName);
+        expect(entity.comment).to.equal(args.comment);
         expect(entity.fields).to.deep.eq(args.fields);
       });
     });
   });
-  describe('#addField', () => {
+  describe('addField', () => {
     let entity;
 
     before(() => {
@@ -112,7 +112,7 @@ describe('JDLEntity', () => {
         validField = new JDLField({ name: 'myField', type: 'String' });
       });
 
-      it('works', () => {
+      it('should work', () => {
         entity.addField(validField);
         expect(entity.fields).to.deep.eq({ myField: validField });
       });
@@ -160,7 +160,7 @@ describe('JDLEntity', () => {
       });
     });
   });
-  describe('#forEachField', () => {
+  describe('forEachField', () => {
     context('when not passing a function', () => {
       let entity;
 
@@ -204,7 +204,7 @@ describe('JDLEntity', () => {
       });
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     context('without a comment', () => {
       let entity;
       let args;
@@ -217,8 +217,8 @@ describe('JDLEntity', () => {
         entity = new JDLEntity(args);
       });
 
-      it('stringifies its content', () => {
-        expect(entity.toString()).to.eq(`entity ${args.name} (${args.tableName})`);
+      it('should stringify its content', () => {
+        expect(entity.toString()).to.equal(`entity ${args.name} (${args.tableName})`);
       });
     });
     context('with a table equal to the name (snakecase)', () => {
@@ -233,7 +233,7 @@ describe('JDLEntity', () => {
         entity = new JDLEntity(args);
       });
 
-      it('does not exporters it', () => {
+      it('should not export it', () => {
         expect(entity.toString()).to.equal(`entity ${args.name}`);
       });
     });
@@ -249,7 +249,7 @@ describe('JDLEntity', () => {
         entity = new JDLEntity(args);
       });
 
-      it('exports it', () => {
+      it('should export it', () => {
         expect(entity.toString()).to.equal(`entity ${args.name} (MyTableName)`);
       });
     });
@@ -266,8 +266,8 @@ describe('JDLEntity', () => {
         entity = new JDLEntity(args);
       });
 
-      it('stringifies its content', () => {
-        expect(entity.toString()).to.eq(
+      it('should stringify its content', () => {
+        expect(entity.toString()).to.equal(
           `/**
  * ${args.comment}
  */
@@ -298,10 +298,10 @@ entity ${args.name} (${args.tableName})`
         });
       });
 
-      it('stringifies its content', () => {
+      it('should stringify its content', () => {
         entity.addField(field1);
         entity.addField(field2);
-        expect(entity.toString()).to.eq(
+        expect(entity.toString()).to.equal(
           `/**
  * ${entity.comment}
  */

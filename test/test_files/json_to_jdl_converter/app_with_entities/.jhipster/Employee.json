@@ -6,7 +6,7 @@
       "relationshipName": "department",
       "otherEntityName": "department",
       "relationshipType": "many-to-one",
-      "otherEntityField": ["id"]
+      "otherEntityField": "id"
     },
     {
       "relationshipType": "one-to-many",
@@ -18,7 +18,7 @@
       "relationshipType": "many-to-one",
       "relationshipName": "manager",
       "otherEntityName": "employee",
-      "otherEntityField": ["id"]
+      "otherEntityField": "id"
     }
   ],
   "fields": [

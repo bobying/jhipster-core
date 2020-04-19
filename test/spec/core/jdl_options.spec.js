@@ -27,7 +27,7 @@ const UnaryOptions = require('../../../lib/core/jhipster/unary_options');
 const BinaryOptions = require('../../../lib/core/jhipster/binary_options');
 
 describe('JDLOptions', () => {
-  describe('#addOption', () => {
+  describe('addOption', () => {
     context('when passing an invalid option', () => {
       let options;
 
@@ -35,7 +35,7 @@ describe('JDLOptions', () => {
         options = new JDLOptions();
       });
 
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           options.addOption(null);
         }).to.throw(/^Can't add nil option.$/);
@@ -59,7 +59,7 @@ describe('JDLOptions', () => {
       });
 
       context('that has not been added before', () => {
-        it('adds it', () => {
+        it('should add it', () => {
           expect(options.getOptions()[0]).to.deep.eq(option1);
           expect(options.getOptions()[1]).to.deep.eq(option2);
         });
@@ -72,10 +72,10 @@ describe('JDLOptions', () => {
           );
         });
 
-        it('does not duplicate it', () => {
+        it('should not duplicate it', () => {
           expect(options.getOptions().length).to.equal(2);
         });
-        it('merges the entity names and excluded names', () => {
+        it('should merge the entity names and excluded names', () => {
           expect(options.getOptions()[0]).to.deep.eq(
             new JDLUnaryOption({
               name: UnaryOptions.SKIP_CLIENT,
@@ -87,9 +87,9 @@ describe('JDLOptions', () => {
       });
     });
   });
-  describe('#has', () => {
+  describe('has', () => {
     context('with an invalid input', () => {
-      it('returns false', () => {
+      it('should return false', () => {
         expect(new JDLOptions().has(null)).to.be.false;
       });
     });
@@ -100,7 +100,7 @@ describe('JDLOptions', () => {
         options = new JDLOptions();
       });
 
-      it('returns whether the option is present', () => {
+      it('should return whether the option is present', () => {
         options.addOption(
           new JDLUnaryOption({
             name: UnaryOptions.SKIP_CLIENT,
@@ -112,14 +112,14 @@ describe('JDLOptions', () => {
       });
     });
   });
-  describe('#size', () => {
+  describe('size', () => {
     let options;
 
     before(() => {
       options = new JDLOptions();
     });
 
-    it('returns the number of options', () => {
+    it('should return the number of options', () => {
       expect(options.size()).to.equal(0);
       options.addOption(
         new JDLUnaryOption({
@@ -131,7 +131,7 @@ describe('JDLOptions', () => {
       expect(options.size()).to.equal(1);
     });
   });
-  describe('#forEach', () => {
+  describe('forEach', () => {
     let jdlOptions;
 
     before(() => {
@@ -149,7 +149,7 @@ describe('JDLOptions', () => {
     });
 
     context('when not passing a function', () => {
-      it('does not fail', () => {
+      it('should not fail', () => {
         jdlOptions.forEach();
       });
     });
@@ -162,12 +162,12 @@ describe('JDLOptions', () => {
         });
       });
 
-      it('uses each option', () => {
+      it('should use each option', () => {
         expect(result).to.deep.equal(['skipClient', 'skipServer']);
       });
     });
   });
-  describe('#getOptionsForName', () => {
+  describe('getOptionsForName', () => {
     let jdlOptions;
 
     before(() => {
@@ -179,12 +179,12 @@ describe('JDLOptions', () => {
     });
 
     context('when passing an invalid name', () => {
-      it('returns an empty array', () => {
+      it('should return an empty array', () => {
         expect(jdlOptions.getOptionsForName()).to.be.empty;
       });
     });
     context('when checking for an absent option', () => {
-      it('returns an empty array', () => {
+      it('should return an empty array', () => {
         expect(jdlOptions.getOptionsForName(UnaryOptions.SKIP_CLIENT)).to.be.empty;
       });
     });
@@ -211,13 +211,13 @@ describe('JDLOptions', () => {
         jdlOptions.addOption(option3);
       });
 
-      it('returns it', () => {
+      it('should return it', () => {
         expect(jdlOptions.getOptionsForName(UnaryOptions.SKIP_CLIENT)).to.deep.equal([option1]);
         expect(jdlOptions.getOptionsForName(BinaryOptions.Options.SERVICE)).to.deep.equal([option2, option3]);
       });
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     const options = new JDLOptions();
 
     before(() => {
@@ -238,8 +238,15 @@ describe('JDLOptions', () => {
       );
     });
 
-    it('stringifies the options', () => {
-      expect(options.toString()).to.eq('skipClient A, B, C, J except M, N, O\nskipServer D');
+    context('when not passing an indentation level', () => {
+      it('should stringify the options without indent', () => {
+        expect(options.toString()).to.equal('skipClient A, B, C, J except M, N, O\nskipServer D');
+      });
+    });
+    context('when passing an indentation level', () => {
+      it('should stringify the options with indent', () => {
+        expect(options.toString(2)).to.equal('  skipClient A, B, C, J except M, N, O\n  skipServer D');
+      });
     });
   });
 });

@@ -2,6 +2,8 @@
 
 [![GitHub Actions Build Status][github-actions-image]][github-actions-url] [![Azure DevOps Build Status][azure-devops-image]][azure-devops-url]
 
+[![sonar-quality-gate][sonar-quality-gate]][sonar-url] [![sonar-coverage][sonar-coverage]][sonar-url] [![sonar-bugs][sonar-bugs]][sonar-url] [![sonar-vulnerabilities][sonar-vulnerabilities]][sonar-url]
+
 ---
 
 Welcome to the official repository of everything common to JHipster and its projects, like the JDL (JHipster Domain Language).
@@ -9,6 +11,11 @@ Welcome to the official repository of everything common to JHipster and its proj
 Please read our [guidelines](/CONTRIBUTING.md#submission-guidelines) before submitting an issue.
 If your issue is a bug, please use the bug template pre-populated [here](https://github.com/jhipster/jhipster-core/issues/new?template=BUG_REPORT.md).
 For feature requests and queries you can use [this template](https://github.com/jhipster/jhipster-core/issues/new?template=FEATURE_REQUEST.md).
+
+### Contributing to JHipster-Core
+
+For more details about the project structure and detailed examples on how to update JDL please refer our 
+[documentation pages](https://github.com/jhipster/jhipster-core/blob/master/docs/contributing.md).
 
 ### Releasing
 
@@ -26,3 +33,8 @@ For feature requests and queries you can use [this template](https://github.com/
 [github-actions-url]: https://github.com/jhipster/jhipster-core/actions
 [npm-image]: https://badge.fury.io/js/jhipster-core.svg
 [npm-url]: https://npmjs.org/package/jhipster-core
+[sonar-bugs]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-core&metric=bugs
+[sonar-coverage]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-core&metric=coverage
+[sonar-quality-gate]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-core&metric=alert_status
+[sonar-url]: https://sonarcloud.io/dashboard?id=jhipster-core
+[sonar-vulnerabilities]: https://sonarcloud.io/api/project_badges/measure?project=jhipster-core&metric=vulnerabilities

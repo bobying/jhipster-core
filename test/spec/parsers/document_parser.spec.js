@@ -23,6 +23,7 @@ const { expect } = require('chai');
 const { matchEntity } = require('../../matchers/entity_matcher');
 const JDLReader = require('../../../lib/readers/jdl_reader');
 const DocumentParser = require('../../../lib/parsers/document_parser');
+const { createJDLApplication } = require('../../../lib/core/jdl_application_factory');
 const JDLEntity = require('../../../lib/core/jdl_entity');
 const JDLEnum = require('../../../lib/core/jdl_enum');
 const JDLField = require('../../../lib/core/jdl_field');
@@ -37,13 +38,13 @@ const BinaryOptions = require('../../../lib/core/jhipster/binary_options').Optio
 const BinaryOptionValues = require('../../../lib/core/jhipster/binary_options').Values;
 
 describe('DocumentParser', () => {
-  describe('::parse', () => {
+  describe('parse', () => {
     context('when passing invalid args', () => {
       context('because there is no parsedContent', () => {
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             DocumentParser.parseFromConfigurationObject({});
-          }).to.throw('The parsed JDL content must be passed.');
+          }).to.throw(/^The parsed JDL content must be passed\.$/);
         });
       });
     });
@@ -58,7 +59,7 @@ describe('DocumentParser', () => {
           });
         });
 
-        it('builds a JDLObject', () => {
+        it('should build a JDLObject', () => {
           expect(jdlObject).not.to.be.null;
           expect(jdlObject.entities.Department).to.deep.equal(
             new JDLEntity({
@@ -195,7 +196,7 @@ describe('DocumentParser', () => {
           input = JDLReader.parseFromFiles(['./test/test_files/invalid_field_type.jdl']);
         });
 
-        it("doesn't check for field types", () => {
+        it('should not check for field types', () => {
           DocumentParser.parseFromConfigurationObject({
             parsedContent: input,
             applicationType: ApplicationTypes.GATEWAY
@@ -214,7 +215,7 @@ describe('DocumentParser', () => {
           relationship = jdlObject.relationships.getOneToOne('OneToOne_A{b}_B{a}');
         });
 
-        it('adds it', () => {
+        it('should add it', () => {
           expect(relationship.isInjectedFieldInFromRequired).to.be.true;
           expect(relationship.isInjectedFieldInToRequired).to.be.false;
         });
@@ -229,7 +230,7 @@ describe('DocumentParser', () => {
           });
         });
 
-        it("doesn't add it", () => {
+        it('should not add it', () => {
           expect(jdlObject.entities.A).to.deep.eq(
             new JDLEntity({
               name: 'A',
@@ -252,8 +253,23 @@ describe('DocumentParser', () => {
         });
 
         it('is processed', () => {
-          expect(jdlObject.relationships.getManyToOne('ManyToOne_A{user}_User').to).to.eq('User');
-          expect(jdlObject.relationships.getOneToOne('OneToOne_B{user}_User').to).to.eq('User');
+          expect(jdlObject.relationships.getManyToOne('ManyToOne_A{user}_User').to).to.equal('User');
+          expect(jdlObject.relationships.getOneToOne('OneToOne_B{user}_User').to).to.equal('User');
+        });
+      });
+      context('with Authority entity as destination for a relationship', () => {
+        let jdlObject;
+
+        before(() => {
+          const input = JDLReader.parseFromFiles(['./test/test_files/authority_entity_to_relationship.jdl']);
+          jdlObject = DocumentParser.parseFromConfigurationObject({
+            parsedContent: input
+          });
+        });
+
+        it('is processed', () => {
+          expect(jdlObject.relationships.getManyToOne('ManyToOne_A{authority}_Authority').to).to.equal('Authority');
+          expect(jdlObject.relationships.getOneToOne('OneToOne_B{authority}_Authority').to).to.equal('Authority');
         });
       });
       context('with an invalid option', () => {
@@ -263,12 +279,10 @@ describe('DocumentParser', () => {
           input = JDLReader.parseFromFiles(['./test/test_files/invalid_option.jdl']);
         });
 
-        it('fails', () => {
-          expect(() => {
-            DocumentParser.parseFromConfigurationObject({
-              parsedContent: input
-            });
-          }).to.throw(/^Can't add invalid option\. Error: The 'dto' option is not valid for value 'wrong'\.$/);
+        it('should not fail', () => {
+          DocumentParser.parseFromConfigurationObject({
+            parsedContent: input
+          });
         });
       });
       context('with a required enum', () => {
@@ -291,7 +305,7 @@ describe('DocumentParser', () => {
           );
         });
 
-        it('adds it', () => {
+        it('should add it', () => {
           expect(jdlObject.getEnum('MyEnum')).to.deep.eq(
             new JDLEnum({
               name: 'MyEnum',
@@ -312,7 +326,7 @@ describe('DocumentParser', () => {
           });
         });
 
-        it('adds it correctly', () => {
+        it('should add it correctly', () => {
           expect(jdlObject.getOptions()).to.deep.eq([
             new JDLUnaryOption({
               name: UnaryOptions.NO_FLUENT_METHOD,
@@ -331,20 +345,20 @@ describe('DocumentParser', () => {
           });
         });
 
-        it('accepts them', () => {
-          expect(jdlObject.entities.A.fields.name.comment).to.eq('abc');
-          expect(jdlObject.entities.A.fields.thing.comment).to.eq('def');
-          expect(jdlObject.entities.A.fields.another.comment).to.eq(undefined);
+        it('should accept them', () => {
+          expect(jdlObject.entities.A.fields.name.comment).to.equal('abc');
+          expect(jdlObject.entities.A.fields.thing.comment).to.equal('def');
+          expect(jdlObject.entities.A.fields.another.comment).to.equal(undefined);
         });
         context('when having both forms of comments', () => {
-          it('only accepts the one defined first', () => {
-            expect(jdlObject.entities.B.fields.name.comment).to.eq('xyz');
+          it('should accept the one defined first', () => {
+            expect(jdlObject.entities.B.fields.name.comment).to.equal('xyz');
           });
         });
         context('when using commas', () => {
-          it('assigns the comment to the next field', () => {
+          it('should assign the comment to the next field', () => {
             expect(jdlObject.entities.C.fields.name.comment).to.be.undefined;
-            expect(jdlObject.entities.C.fields.thing.comment).to.eq('abc');
+            expect(jdlObject.entities.C.fields.thing.comment).to.equal('abc');
           });
         });
       });
@@ -361,15 +375,15 @@ describe('DocumentParser', () => {
         });
 
         context('checking the entities', () => {
-          it('parses them', () => {
+          it('should parse them', () => {
             ['A', 'B', 'C', 'D', 'E', 'F', 'G'].forEach(entityName => {
               expect(jdlObject.entities[entityName]).to.satisfy(matchEntity);
             });
           });
         });
         context('checking the options', () => {
-          it('parses them', () => {
-            expect(options.length).to.eq(7);
+          it('should parse them', () => {
+            expect(options.length).to.equal(7);
             expect(options[0].name).to.equal('skipClient');
             expect(options[1].name).to.equal('skipServer');
             expect(options[2].name).to.equal('dto');
@@ -395,7 +409,7 @@ describe('DocumentParser', () => {
           });
         });
 
-        it('assigns them correctly', () => {
+        it('should assign them correctly', () => {
           expect(jdlObject.entities.TestEntity.fields.first.comment).to.equal('first comment');
           expect(jdlObject.entities.TestEntity.fields.second.comment).to.equal('second comment');
           expect(jdlObject.entities.TestEntity2.fields.first.comment).to.equal('first comment');
@@ -412,7 +426,7 @@ describe('DocumentParser', () => {
           });
         });
 
-        it("assigns the constants' value when needed", () => {
+        it("should assign the constants' value when needed", () => {
           expect(jdlObject.entities.A.fields.name.validations).to.deep.equal({
             minlength: {
               name: 'minlength',
@@ -452,34 +466,27 @@ describe('DocumentParser', () => {
           input = JDLReader.parseFromFiles(['./test/test_files/cassandra_jdl.jdl']);
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           try {
             DocumentParser.parseFromConfigurationObject({
               parsedContent: input
             });
           } catch (error) {
-            expect(error.name).to.eq('IllegalOptionException');
+            expect(error.name).to.equal('IllegalOptionException');
           }
         });
       });
       context('when parsing applications', () => {
-        let application;
+        let parsedConfig;
+        let expectedConfig;
 
         before(() => {
           const input = JDLReader.parseFromFiles(['./test/test_files/application.jdl']);
           const jdlObject = DocumentParser.parseFromConfigurationObject({
             parsedContent: input
           });
-          application = jdlObject.applications.toto.config;
-        });
-
-        it('parses it', () => {
-          expect(application.languages.has('en') && application.languages.has('fr')).to.be.true;
-          expect(application.testFrameworks.size).to.equal(0);
-          delete application.languages;
-          delete application.testFrameworks;
-
-          expect(application).to.deep.equal({
+          parsedConfig = jdlObject.applications.toto;
+          expectedConfig = createJDLApplication({
             applicationType: 'monolith',
             authenticationType: 'jwt',
             baseName: 'toto',
@@ -511,6 +518,10 @@ describe('DocumentParser', () => {
             websocket: false
           });
         });
+
+        it('should parse it', () => {
+          expect(parsedConfig).to.deep.equal(expectedConfig);
+        });
       });
       context('when parsing deployments', () => {
         let deployment;
@@ -523,7 +534,7 @@ describe('DocumentParser', () => {
           deployment = jdlObject.deployments['docker-compose'];
         });
 
-        it('parses it', () => {
+        it('should parse it', () => {
           expect(deployment.appsFolders).to.deep.equal(new Set(['tata', 'titi']));
           delete deployment.appsFolders;
           delete deployment.clusteredDbApps;
@@ -552,7 +563,7 @@ describe('DocumentParser', () => {
           filterOption = jdlObject.getOptionsForName(UnaryOptions.FILTER)[0];
         });
 
-        it('works', () => {
+        it('should work', () => {
           expect(filterOption.entityNames.has('*')).to.be.true;
           expect(filterOption.excludedNames.has('B')).to.be.true;
         });
@@ -572,7 +583,7 @@ describe('DocumentParser', () => {
             clientRootFolderOption = jdlObject.getOptionsForName(BinaryOptions.CLIENT_ROOT_FOLDER)[0];
           });
 
-          it('sets the microservice name as clientRootFolder', () => {
+          it('should set the microservice name as clientRootFolder', () => {
             expect(clientRootFolderOption.value).to.equal('ms');
           });
         });
@@ -589,7 +600,7 @@ describe('DocumentParser', () => {
             clientRootFolderOption = jdlObject.getOptionsForName(BinaryOptions.CLIENT_ROOT_FOLDER)[0];
           });
 
-          it("sets the option's value", () => {
+          it("should set the option's value", () => {
             expect(clientRootFolderOption.entityNames.has('*')).to.be.true;
             expect(clientRootFolderOption.excludedNames.has('C')).to.be.true;
             expect(clientRootFolderOption.value).to.equal('test-root');
@@ -611,7 +622,7 @@ describe('DocumentParser', () => {
             microserviceOption = jdlObject.getOptionsForName(BinaryOptions.MICROSERVICE)[0];
           });
 
-          it('adds it to every entity', () => {
+          it('should add it to every entity', () => {
             expect(jdlObject.getOptionQuantity()).to.equal(2);
             expect(microserviceOption.entityNames).to.deep.equal(new Set(['A', 'B', 'C', 'D', 'E', 'F', 'G']));
           });
@@ -637,18 +648,18 @@ describe('DocumentParser', () => {
         });
       });
       context('when parsing a JDL microservice application with entities', () => {
-        let jdlObject;
+        let entityNames;
 
         before(() => {
           const input = JDLReader.parseFromFiles(['./test/test_files/application_with_entities.jdl']);
-          jdlObject = DocumentParser.parseFromConfigurationObject({
+          const jdlObject = DocumentParser.parseFromConfigurationObject({
             parsedContent: input
           });
+          entityNames = jdlObject.applications.MyApp.getEntityNames();
         });
 
-        it('adds the application entities in the application object', () => {
-          expect(jdlObject.applications.MyApp.entityNames.has('BankAccount')).to.be.true;
-          expect(jdlObject.applications.MyApp.entityNames.size).to.equal(1);
+        it('should add the application entities in the application object', () => {
+          expect(entityNames).to.deep.equal(['BankAccount']);
         });
       });
       context('when parsing a relationship with no injected field', () => {
@@ -668,7 +679,7 @@ describe('DocumentParser', () => {
           relationshipManyToMany = jdlObject.relationships.getManyToMany('ManyToMany_A{b}_B{a}');
         });
 
-        it('adds a default one', () => {
+        it('should add a default one', () => {
           expect(relationshipOneToOne.injectedFieldInTo).to.equal('a');
           expect(relationshipOneToOne.injectedFieldInFrom).to.equal('b');
           expect(relationshipOneToMany.injectedFieldInTo).to.equal('a');
@@ -707,7 +718,7 @@ describe('DocumentParser', () => {
           relationshipAnnotation = jdlObject.relationships.getOneToMany('OneToMany_A{b}_B{a}').options.id;
         });
 
-        it('sets the annotations as options', () => {
+        it('should set the annotations as options', () => {
           expect(dtoOption.entityNames).to.deep.equal(new Set(['A', 'B']));
           expect(filterOption.entityNames).to.deep.equal(new Set(['C']));
           expect(paginationOption.entityNames).to.deep.equal(new Set(['B', 'C']));
@@ -730,6 +741,7 @@ describe('DocumentParser', () => {
         let skipClientOptions;
         let skipServerOptions;
         let readOnlyOptions;
+        let embeddedOptions;
 
         before(() => {
           const input = JDLReader.parseFromFiles(['./test/test_files/annotations_and_options.jdl']);
@@ -744,9 +756,10 @@ describe('DocumentParser', () => {
           skipClientOptions = jdlObject.getOptionsForName(UnaryOptions.SKIP_CLIENT);
           skipServerOptions = jdlObject.getOptionsForName(UnaryOptions.SKIP_SERVER);
           readOnlyOptions = jdlObject.getOptionsForName(UnaryOptions.READ_ONLY);
+          embeddedOptions = jdlObject.getOptionsForName(UnaryOptions.EMBEDDED);
         });
 
-        it('correctly sets the options', () => {
+        it('correctly should set the options', () => {
           expect(dtoOptions).to.have.length(1);
           expect(dtoOptions[0].entityNames).to.deep.equal(new Set(['A', 'B']));
 
@@ -768,6 +781,9 @@ describe('DocumentParser', () => {
 
           expect(readOnlyOptions).to.have.length(1);
           expect(readOnlyOptions[0].entityNames).to.deep.equal(new Set(['A', 'C']));
+
+          expect(embeddedOptions).to.have.length(1);
+          expect(embeddedOptions[0].entityNames).to.deep.equal(new Set(['B', 'C']));
         });
       });
       context('when having a pattern validation with a quote in it', () => {
@@ -796,7 +812,7 @@ describe('DocumentParser', () => {
           });
         });
 
-        it('accepts it', () => {
+        it('should accept it', () => {
           expect(jdlObject.entities.A.fields.myString.validations.unique).not.to.be.undefined;
           expect(jdlObject.entities.A.fields.myInteger.validations.unique).not.to.be.undefined;
         });
@@ -812,8 +828,77 @@ describe('DocumentParser', () => {
           });
         });
 
-        it('sets it', () => {
+        it('should set it', () => {
           expect(jdlObject.relationships.getOneToOne('OneToOne_A{b}_B').options.jpaDerivedIdentifier).to.be.true;
+        });
+      });
+      context('when parsing entity options in applications', () => {
+        context('if the entity list does not contain some entities mentioned in options', () => {
+          let parsedContent;
+
+          before(() => {
+            parsedContent = JDLReader.parseFromContent(`application {
+  config {
+    baseName testApp1
+  }
+  entities A
+  readOnly B
+}
+
+entity A
+entity B
+`);
+          });
+
+          it('should fail', () => {
+            expect(() =>
+              DocumentParser.parseFromConfigurationObject({
+                parsedContent
+              })
+            ).to.throw(/^The entity B in the readOnly option isn't declared in testApp1's entity list.$/);
+          });
+        });
+        context('if the entity list contains all the entities mentioned in options', () => {
+          let optionsForFirstApplication;
+          let optionsForSecondApplication;
+
+          before(() => {
+            const input = JDLReader.parseFromContent(`application {
+  config {
+    baseName testApp1
+  }
+  entities A, B, C
+  readOnly A
+  paginate * with pagination except C
+  search C with couchbase
+}
+
+application {
+  config {
+    baseName testApp2
+  }
+  entities A, D
+  readOnly D
+}
+
+entity A
+entity B
+entity C
+entity D
+
+skipClient D
+`);
+            const jdlObject = DocumentParser.parseFromConfigurationObject({
+              parsedContent: input
+            });
+            optionsForFirstApplication = jdlObject.applications.testApp1.options;
+            optionsForSecondApplication = jdlObject.applications.testApp2.options;
+          });
+
+          it('should parse them', () => {
+            expect(optionsForFirstApplication.size()).to.equal(3);
+            expect(optionsForSecondApplication.size()).to.equal(1);
+          });
         });
       });
     });

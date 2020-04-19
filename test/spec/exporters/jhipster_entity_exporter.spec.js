@@ -22,16 +22,15 @@ const { expect } = require('chai');
 const fs = require('fs');
 const path = require('path');
 
-const JDLMonolithApplication = require('../../../lib/core/jdl_monolith_application');
 const ApplicationTypes = require('../../../lib/core/jhipster/application_types');
 const JHipsterEntityExporter = require('../../../lib/exporters/jhipster_entity_exporter');
 const FileUtils = require('../../../lib/utils/file_utils');
 
 describe('JHipsterEntityExporter', () => {
-  describe('::exportEntities', () => {
+  describe('exportEntities', () => {
     context('when passing invalid parameters', () => {
       context('such as undefined', () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JHipsterEntityExporter.exportEntities();
           }).to.throw('Entities have to be passed to be exported.');
@@ -45,8 +44,9 @@ describe('JHipsterEntityExporter', () => {
         let returned;
 
         before(() => {
-          entities = {
-            A: {
+          entities = [
+            {
+              name: 'A',
               fields: [
                 {
                   fieldName: 'myEnum',
@@ -66,7 +66,7 @@ describe('JHipsterEntityExporter', () => {
               clientRootFolder: '',
               applications: []
             }
-          };
+          ];
           returned = JHipsterEntityExporter.exportEntities({
             entities,
             application: {
@@ -82,11 +82,30 @@ describe('JHipsterEntityExporter', () => {
           fs.rmdirSync('.jhipster');
         });
 
-        it('returns the exported entities', () => {
-          expect(returned).to.deep.equal([entities.A]);
+        it('should return the exported entities', () => {
+          expect(returned).to.deep.equal(entities);
         });
-        it('exports the entities', () => {
-          expect(aEntityContent).to.deep.equal(entities.A);
+        it('should export the entities', () => {
+          expect(aEntityContent).to.deep.equal(entities[0]);
+        });
+      });
+      context('when not exporting entities', () => {
+        let returned;
+
+        before(() => {
+          returned = JHipsterEntityExporter.exportEntities({
+            entities: [],
+            application: {
+              name: 'MyApp',
+              type: ApplicationTypes.MONOLITH
+            }
+          });
+        });
+        it('should return an empty list', () => {
+          expect(returned).to.deep.equal([]);
+        });
+        it('should not create a .jhipster folder', () => {
+          expect(FileUtils.doesDirectoryExist('.jhipster')).to.be.false;
         });
       });
       context('when exporting the same entity', () => {
@@ -96,8 +115,9 @@ describe('JHipsterEntityExporter', () => {
         let returned;
 
         before(done => {
-          entities = {
-            A: {
+          entities = [
+            {
+              name: 'A',
               fields: [
                 {
                   fieldName: 'myEnum',
@@ -117,7 +137,7 @@ describe('JHipsterEntityExporter', () => {
               clientRootFolder: '',
               applications: []
             }
-          };
+          ];
           returned = JHipsterEntityExporter.exportEntities({
             entities,
             application: {
@@ -139,9 +159,10 @@ describe('JHipsterEntityExporter', () => {
           }, 1000);
         });
 
-        it('returns the exported entities', () => {
+        it('should return the exported entities', () => {
           expect(returned).to.deep.equal([
             {
+              name: 'A',
               applications: [],
               changelogDate: '42',
               clientRootFolder: '',
@@ -163,8 +184,8 @@ describe('JHipsterEntityExporter', () => {
             }
           ]);
         });
-        it('exports it with same changelogDate', () => {
-          expect(newChangelogDate).to.eq(previousChangelogDate);
+        it('should export it with same changelogDate', () => {
+          expect(newChangelogDate).to.equal(previousChangelogDate);
         });
 
         after(() => {
@@ -178,15 +199,16 @@ describe('JHipsterEntityExporter', () => {
           let returned;
 
           before(() => {
-            entities = {
-              Client: {
+            entities = [
+              {
+                name: 'Client',
                 fields: [],
                 relationships: [
                   {
                     relationshipType: 'many-to-one',
                     relationshipName: 'location',
                     otherEntityName: 'location',
-                    otherEntityField: ['id']
+                    otherEntityField: 'id'
                   }
                 ],
                 changelogDate: '20180303092308',
@@ -200,7 +222,8 @@ describe('JHipsterEntityExporter', () => {
                 applications: '*',
                 microserviceName: 'client'
               },
-              Location: {
+              {
+                name: 'Location',
                 fields: [],
                 relationships: [
                   {
@@ -221,7 +244,8 @@ describe('JHipsterEntityExporter', () => {
                 applications: '*',
                 microserviceName: 'client'
               },
-              LocalStore: {
+              {
+                name: 'LocalStore',
                 fields: [],
                 relationships: [
                   {
@@ -242,7 +266,8 @@ describe('JHipsterEntityExporter', () => {
                 applications: '*',
                 microserviceName: 'store'
               },
-              Product: {
+              {
+                name: 'Product',
                 fields: [
                   {
                     fieldName: 'name',
@@ -254,7 +279,7 @@ describe('JHipsterEntityExporter', () => {
                     relationshipType: 'many-to-one',
                     relationshipName: 'store',
                     otherEntityName: 'localStore',
-                    otherEntityField: ['id']
+                    otherEntityField: 'id'
                   }
                 ],
                 changelogDate: '20180303092311',
@@ -268,7 +293,7 @@ describe('JHipsterEntityExporter', () => {
                 applications: '*',
                 microserviceName: 'store'
               }
-            };
+            ];
             returned = JHipsterEntityExporter.exportEntities({
               entities,
               application: {
@@ -278,16 +303,17 @@ describe('JHipsterEntityExporter', () => {
             });
           });
 
-          it('returns the exported entities', () => {
+          it('should return the exported entities', () => {
             expect(returned).to.deep.equal([
               {
+                name: 'Client',
                 fields: [],
                 relationships: [
                   {
                     relationshipType: 'many-to-one',
                     relationshipName: 'location',
                     otherEntityName: 'location',
-                    otherEntityField: ['id']
+                    otherEntityField: 'id'
                   }
                 ],
                 changelogDate: '20180303092308',
@@ -302,6 +328,7 @@ describe('JHipsterEntityExporter', () => {
                 microserviceName: 'client'
               },
               {
+                name: 'Location',
                 fields: [],
                 relationships: [
                   {
@@ -323,6 +350,7 @@ describe('JHipsterEntityExporter', () => {
                 microserviceName: 'client'
               },
               {
+                name: 'LocalStore',
                 fields: [],
                 relationships: [
                   {
@@ -344,6 +372,7 @@ describe('JHipsterEntityExporter', () => {
                 microserviceName: 'store'
               },
               {
+                name: 'Product',
                 fields: [
                   {
                     fieldName: 'name',
@@ -355,7 +384,7 @@ describe('JHipsterEntityExporter', () => {
                     relationshipType: 'many-to-one',
                     relationshipName: 'store',
                     otherEntityName: 'localStore',
-                    otherEntityField: ['id']
+                    otherEntityField: 'id'
                   }
                 ],
                 changelogDate: '20180303092311',
@@ -371,7 +400,7 @@ describe('JHipsterEntityExporter', () => {
               }
             ]);
           });
-          it('exports every entity', () => {
+          it('should export every entity', () => {
             expect(FileUtils.doesFileExist('.jhipster/Client.json'));
             expect(FileUtils.doesFileExist('.jhipster/Location.json'));
             expect(FileUtils.doesFileExist('.jhipster/LocalStore.json'));
@@ -389,10 +418,11 @@ describe('JHipsterEntityExporter', () => {
         context('inside a microservice', () => {
           context('and when entities without the microservice option are passed', () => {
             let entities;
+            let returnedContent;
 
             before(() => {
-              entities = {
-                A: {
+              entities = [
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092920',
@@ -403,9 +433,10 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'A'
                 },
-                B: {
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092921',
@@ -416,9 +447,10 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'B'
                 },
-                C: {
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092922',
@@ -429,9 +461,10 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'C'
                 },
-                D: {
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092923',
@@ -442,9 +475,10 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'D'
                 },
-                E: {
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092924',
@@ -455,9 +489,10 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'E'
                 },
-                F: {
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092925',
@@ -468,9 +503,10 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'F'
                 },
-                G: {
+                {
                   fields: [],
                   relationships: [],
                   changelogDate: '20180303092926',
@@ -481,10 +517,11 @@ describe('JHipsterEntityExporter', () => {
                   jpaMetamodelFiltering: false,
                   fluentMethods: true,
                   clientRootFolder: '',
-                  applications: '*'
+                  applications: '*',
+                  name: 'G'
                 }
-              };
-              JHipsterEntityExporter.exportEntities({
+              ];
+              returnedContent = JHipsterEntityExporter.exportEntities({
                 entities,
                 application: {
                   name: 'client',
@@ -493,9 +530,16 @@ describe('JHipsterEntityExporter', () => {
               });
             });
 
-            it('exports every entity', () => {
+            it('should export every entity', () => {
               ['A', 'B', 'C', 'D', 'E', 'F', 'G'].forEach(entityName => {
                 expect(FileUtils.doesFileExist(`.jhipster/${entityName}.json`)).to.be.true;
+              });
+            });
+
+            it('should return every entity', () => {
+              expect(returnedContent.length).to.be.equal(7);
+              ['A', 'B', 'C', 'D', 'E', 'F', 'G'].forEach(entityName => {
+                expect(returnedContent.filter(entity => entity.name === entityName) !== undefined).to.be.true;
               });
             });
 
@@ -508,19 +552,13 @@ describe('JHipsterEntityExporter', () => {
           });
           context('and when microservice entities are passed', () => {
             let entities;
+            let returnedContent;
 
             before(() => {
-              entities = {
-                Client: {
+              entities = [
+                {
                   fields: [],
-                  relationships: [
-                    {
-                      relationshipType: 'many-to-one',
-                      relationshipName: 'location',
-                      otherEntityName: 'location',
-                      otherEntityField: ['id']
-                    }
-                  ],
+                  relationships: [[Object]],
                   changelogDate: '20180303093006',
                   entityTableName: 'client',
                   dto: 'no',
@@ -530,18 +568,12 @@ describe('JHipsterEntityExporter', () => {
                   fluentMethods: true,
                   clientRootFolder: '',
                   applications: '*',
-                  microserviceName: 'client'
+                  microserviceName: 'client',
+                  name: 'Client'
                 },
-                Location: {
+                {
                   fields: [],
-                  relationships: [
-                    {
-                      relationshipType: 'one-to-many',
-                      relationshipName: 'clients',
-                      otherEntityName: 'client',
-                      otherEntityRelationshipName: 'location'
-                    }
-                  ],
+                  relationships: [[Object]],
                   changelogDate: '20180303093007',
                   entityTableName: 'location',
                   dto: 'no',
@@ -551,18 +583,12 @@ describe('JHipsterEntityExporter', () => {
                   fluentMethods: true,
                   clientRootFolder: '',
                   applications: '*',
-                  microserviceName: 'client'
+                  microserviceName: 'client',
+                  name: 'Location'
                 },
-                LocalStore: {
+                {
                   fields: [],
-                  relationships: [
-                    {
-                      relationshipType: 'one-to-many',
-                      relationshipName: 'products',
-                      otherEntityName: 'product',
-                      otherEntityRelationshipName: 'store'
-                    }
-                  ],
+                  relationships: [[Object]],
                   changelogDate: '20180303093008',
                   entityTableName: 'local_store',
                   dto: 'no',
@@ -572,23 +598,12 @@ describe('JHipsterEntityExporter', () => {
                   fluentMethods: true,
                   clientRootFolder: '',
                   applications: '*',
-                  microserviceName: 'store'
+                  microserviceName: 'store',
+                  name: 'LocalStore'
                 },
-                Product: {
-                  fields: [
-                    {
-                      fieldName: 'name',
-                      fieldType: 'String'
-                    }
-                  ],
-                  relationships: [
-                    {
-                      relationshipType: 'many-to-one',
-                      relationshipName: 'store',
-                      otherEntityName: 'localStore',
-                      otherEntityField: ['id']
-                    }
-                  ],
+                {
+                  fields: [[Object]],
+                  relationships: [[Object]],
                   changelogDate: '20180303093009',
                   entityTableName: 'product',
                   dto: 'no',
@@ -598,10 +613,11 @@ describe('JHipsterEntityExporter', () => {
                   fluentMethods: true,
                   clientRootFolder: '',
                   applications: '*',
-                  microserviceName: 'store'
+                  microserviceName: 'store',
+                  name: 'Product'
                 }
-              };
-              JHipsterEntityExporter.exportEntities({
+              ];
+              returnedContent = JHipsterEntityExporter.exportEntities({
                 entities,
                 application: {
                   name: 'client',
@@ -610,9 +626,13 @@ describe('JHipsterEntityExporter', () => {
               });
             });
 
-            it('only exports the entities that should be inside the microservice', () => {
+            it('should export the entities that should be inside the microservice', () => {
               expect(FileUtils.doesFileExist('.jhipster/Client.json'));
               expect(FileUtils.doesFileExist('.jhipster/Location.json'));
+            });
+
+            it('should return the entities that should be inside the microservice', () => {
+              expect(returnedContent.length).to.be.equal(2);
             });
 
             after(() => {
@@ -626,6 +646,7 @@ describe('JHipsterEntityExporter', () => {
       context('when exporting updated entities', () => {
         let originalContent;
         let newContent;
+        let returnedContent;
 
         before(() => {
           originalContent = {
@@ -653,12 +674,13 @@ describe('JHipsterEntityExporter', () => {
             path.join('.jhipster', 'A.json'),
             JSON.stringify({ ...originalContent, customAttribute: '42' })
           );
-          const changedContent = JSON.parse(JSON.stringify(originalContent));
-          changedContent.changelogDate = '43';
-          const entities = {
-            A: changedContent
+          const changedContent = {
+            ...JSON.parse(JSON.stringify(originalContent)),
+            name: 'A',
+            changelogDate: '43'
           };
-          JHipsterEntityExporter.exportEntities({
+          const entities = [changedContent];
+          returnedContent = JHipsterEntityExporter.exportEntities({
             entities,
             application: {
               name: 'MyApp',
@@ -673,154 +695,20 @@ describe('JHipsterEntityExporter', () => {
           fs.rmdirSync('.jhipster');
         });
 
-        it('merges the existing content with the new one and preserves changelogDate original value', () => {
+        it('should merge the existing content with the new one', () => {
           expect(newContent).to.deep.equal({
             ...originalContent,
+            name: 'A',
             customAttribute: '42'
           });
         });
-      });
-    });
-  });
-  describe('::exportEntitiesInApplications', () => {
-    context('when passing invalid parameters', () => {
-      context('such as undefined', () => {
-        it('throws an error', () => {
-          expect(() => {
-            JHipsterEntityExporter.exportEntitiesInApplications();
-          }).to.throw('Entities have to be passed to be exported.');
-        });
-      });
-    });
-    context('when passing valid arguments', () => {
-      context('with one application', () => {
-        before(() => {
-          const entity = {
-            fields: [],
-            relationships: [],
-            changelogDate: '42',
-            javadoc: '',
-            entityTableName: 'a',
-            dto: 'no',
-            pagination: 'no',
-            service: 'no',
-            fluentMethods: true,
-            jpaMetamodelFiltering: false,
-            clientRootFolder: '',
-            applications: ['toto']
-          };
-          const application = new JDLMonolithApplication({
-            config: {
-              baseName: 'toto'
-            },
-            entities: ['A']
-          });
-          JHipsterEntityExporter.exportEntitiesInApplications({
-            entities: { A: entity },
-            applications: {
-              toto: application
-            }
-          });
+
+        it('should keep changelogDate original value', () => {
+          expect(newContent.customAttribute).to.equal('42');
         });
 
-        after(() => {
-          fs.unlinkSync(path.join('.jhipster', 'A.json'));
-          fs.rmdirSync('.jhipster');
-        });
-
-        it('creates the entity in the current folder', () => {
-          expect(fs.statSync('.jhipster').isDirectory()).to.be.true;
-          expect(fs.statSync(path.join('.jhipster', 'A.json')).isFile()).to.be.true;
-        });
-      });
-      context('with more than one application', () => {
-        let application1;
-        let application2;
-        let entities;
-        let aEntityContent;
-        let bEntityContent;
-        let returned;
-
-        before(() => {
-          entities = {
-            A: {
-              fields: [
-                {
-                  fieldName: 'myEnum',
-                  fieldType: 'MyEnum',
-                  fieldValues: 'FRENCH,ENGLISH'
-                }
-              ],
-              relationships: [],
-              changelogDate: '42',
-              javadoc: '',
-              entityTableName: 'a',
-              dto: 'no',
-              pagination: 'no',
-              service: 'no',
-              fluentMethods: true,
-              jpaMetamodelFiltering: false,
-              clientRootFolder: '',
-              applications: ['toto']
-            },
-            B: {
-              fields: [
-                {
-                  fieldName: 'myString',
-                  fieldType: 'String'
-                }
-              ],
-              relationships: [],
-              changelogDate: '43',
-              javadoc: '',
-              entityTableName: 'b',
-              dto: 'mapstruct',
-              pagination: 'no',
-              service: 'serviceClass',
-              fluentMethods: true,
-              jpaMetamodelFiltering: false,
-              clientRootFolder: '',
-              applications: ['titi']
-            }
-          };
-          application1 = new JDLMonolithApplication({
-            config: {
-              baseName: 'toto'
-            },
-            entities: ['A']
-          });
-          application2 = new JDLMonolithApplication({
-            config: {
-              baseName: 'titi'
-            },
-            entities: ['B']
-          });
-          returned = JHipsterEntityExporter.exportEntitiesInApplications({
-            entities,
-            applications: {
-              toto: application1,
-              titi: application2
-            }
-          });
-          aEntityContent = JSON.parse(fs.readFileSync(path.join('toto', '.jhipster', 'A.json'), { encoding: 'utf-8' }));
-          bEntityContent = JSON.parse(fs.readFileSync(path.join('titi', '.jhipster', 'B.json'), { encoding: 'utf-8' }));
-        });
-
-        after(() => {
-          fs.unlinkSync(path.join('toto', '.jhipster', 'A.json'));
-          fs.rmdirSync(path.join('toto', '.jhipster'));
-          fs.rmdirSync(path.join('toto'));
-          fs.unlinkSync(path.join('titi', '.jhipster', 'B.json'));
-          fs.rmdirSync(path.join('titi', '.jhipster'));
-          fs.rmdirSync(path.join('titi'));
-        });
-
-        it('returns the exported entities', () => {
-          expect(returned).to.deep.equal([entities.A, entities.B]);
-        });
-        it('exports the entities', () => {
-          expect(aEntityContent).to.deep.equal(entities.A);
-          expect(bEntityContent).to.deep.equal(entities.B);
+        it('should return the new content', () => {
+          expect(newContent).to.deep.equal(returnedContent[0]);
         });
       });
     });

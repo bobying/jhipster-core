@@ -5,14 +5,14 @@
       "relationshipName": "employee",
       "otherEntityName": "employee",
       "relationshipType": "many-to-one",
-      "otherEntityField": ["id"]
+      "otherEntityField": "id"
     },
     {
       "relationshipType": "many-to-many",
       "otherEntityRelationshipName": "job",
       "relationshipName": "task",
       "otherEntityName": "task",
-      "otherEntityField": ["title"],
+      "otherEntityField": "title",
       "ownerSide": true
     }
   ],

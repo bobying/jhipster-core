@@ -25,6 +25,7 @@ const { expect } = require('chai');
 const ApplicationTypes = require('../../../lib/core/jhipster/application_types');
 const DatabaseTypes = require('../../../lib/core/jhipster/database_types');
 const { createImporterFromFiles, createImporterFromContent } = require('../../../lib/jdl/jdl_importer');
+const { formatDateForLiquibase } = require('../../../lib/utils/format_utils');
 
 describe('JDLImporter', () => {
   describe('createImporterFromFiles', () => {
@@ -67,7 +68,7 @@ describe('JDLImporter', () => {
               relationshipName: 'location',
               otherEntityName: 'location',
               relationshipType: 'many-to-one',
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               otherEntityRelationshipName: 'country'
             }
           ],
@@ -76,6 +77,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -114,7 +116,7 @@ describe('JDLImporter', () => {
               relationshipType: 'one-to-one',
               relationshipName: 'location',
               otherEntityName: 'location',
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               ownerSide: true,
               otherEntityRelationshipName: 'department'
             },
@@ -126,7 +128,7 @@ describe('JDLImporter', () => {
               otherEntityRelationshipName: 'department'
             },
             {
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               otherEntityName: 'jobHistory',
               otherEntityRelationshipName: 'department',
               ownerSide: false,
@@ -139,6 +141,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: true,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -191,14 +194,14 @@ describe('JDLImporter', () => {
               relationshipType: 'many-to-one',
               relationshipName: 'user',
               otherEntityName: 'user',
-              otherEntityField: ['login'],
+              otherEntityField: 'login',
               otherEntityRelationshipName: 'employee'
             },
             {
               relationshipType: 'many-to-one',
               relationshipName: 'manager',
               otherEntityName: 'employee',
-              otherEntityField: ['lastName'],
+              otherEntityField: 'lastName',
               otherEntityRelationshipName: 'employee'
             },
             {
@@ -207,10 +210,10 @@ describe('JDLImporter', () => {
               relationshipName: 'department',
               otherEntityName: 'department',
               otherEntityRelationshipName: 'employee',
-              otherEntityField: ['id']
+              otherEntityField: 'id'
             },
             {
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               otherEntityName: 'jobHistory',
               otherEntityRelationshipName: 'emp',
               ownerSide: false,
@@ -224,6 +227,7 @@ describe('JDLImporter', () => {
           dto: 'mapstruct',
           pagination: 'infinite-scroll',
           readOnly: false,
+          embedded: false,
           service: 'serviceClass',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -262,7 +266,7 @@ describe('JDLImporter', () => {
               otherEntityRelationshipName: 'linkedJob',
               relationshipName: 'chore',
               otherEntityName: 'task',
-              otherEntityField: ['title'],
+              otherEntityField: 'title',
               ownerSide: true
             },
             {
@@ -270,14 +274,14 @@ describe('JDLImporter', () => {
               relationshipName: 'emp',
               otherEntityName: 'employee',
               otherEntityRelationshipName: 'job',
-              otherEntityField: ['employee']
+              otherEntityField: 'employee'
             },
             {
               relationshipType: 'many-to-many',
               relationshipName: 'history',
               otherEntityName: 'jobHistory',
               otherEntityRelationshipName: 'job',
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               ownerSide: false
             }
           ],
@@ -286,6 +290,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'pagination',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -321,7 +326,7 @@ describe('JDLImporter', () => {
               otherEntityRelationshipName: 'jobHistory',
               relationshipName: 'department',
               otherEntityName: 'department',
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               ownerSide: true
             },
             {
@@ -329,7 +334,7 @@ describe('JDLImporter', () => {
               otherEntityRelationshipName: 'history',
               relationshipName: 'job',
               otherEntityName: 'job',
-              otherEntityField: ['id'],
+              otherEntityField: 'id',
               ownerSide: true
             },
             {
@@ -337,7 +342,7 @@ describe('JDLImporter', () => {
               otherEntityRelationshipName: 'jobHistory',
               relationshipName: 'emp',
               otherEntityName: 'employee',
-              otherEntityField: ['employee'],
+              otherEntityField: 'employee',
               ownerSide: true
             }
           ],
@@ -346,6 +351,7 @@ describe('JDLImporter', () => {
           entityTableName: 'job_history',
           dto: 'no',
           readOnly: true,
+          embedded: false,
           pagination: 'infinite-scroll',
           service: 'no',
           jpaMetamodelFiltering: false,
@@ -387,6 +393,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -409,7 +416,7 @@ describe('JDLImporter', () => {
               otherEntityName: 'country',
               otherEntityRelationshipName: 'area',
               relationshipType: 'many-to-one',
-              otherEntityField: ['id']
+              otherEntityField: 'id'
             }
           ],
           name: 'Region',
@@ -417,6 +424,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -443,7 +451,7 @@ describe('JDLImporter', () => {
               relationshipName: 'linkedJob',
               otherEntityName: 'job',
               ownerSide: false,
-              otherEntityField: ['jobTitle'],
+              otherEntityField: 'jobTitle',
               otherEntityRelationshipName: 'chore'
             }
           ],
@@ -452,6 +460,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -491,7 +500,7 @@ describe('JDLImporter', () => {
         fse.removeSync('.jhipster');
       });
 
-      it('returns the final state', () => {
+      it('should return the final state', () => {
         expect(returned).to.deep.equal({
           exportedEntities: [
             expectedContent.Country,
@@ -507,10 +516,10 @@ describe('JDLImporter', () => {
           exportedDeployments: []
         });
       });
-      it('creates the files', () => {
+      it('should create the files', () => {
         expect(filesExist).to.be.true;
       });
-      it('exports their content', () => {
+      it('should export their content', () => {
         ENTITY_NAMES.forEach(entityName => {
           const entityContent = JSON.parse(fse.readFileSync(path.join('.jhipster', `${entityName}.json`), 'utf-8'));
           if (expectedContent[entityName].javadoc === '') {
@@ -518,6 +527,29 @@ describe('JDLImporter', () => {
           }
           expect(entityContent).to.deep.equal(expectedContent[entityName]);
         });
+      });
+    });
+    context('when passing an existing application config', () => {
+      let importer;
+
+      before(() => {
+        importer = createImporterFromContent(
+          `entity A
+entity User
+relationship OneToOne {
+  User{a} to A
+}
+`,
+          {
+            application: JSON.parse(
+              fse.readFileSync(path.join('test', 'test_files', 'jhipster_app', '.yo-rc.json'), 'utf-8')
+            )
+          }
+        );
+      });
+
+      it('should not fail', () => {
+        expect(() => importer.import()).not.to.throw();
       });
     });
     context('when parsing one JDL application and entities', () => {
@@ -533,15 +565,15 @@ describe('JDLImporter', () => {
         fse.removeSync('.jhipster');
       });
 
-      it('returns the import state', () => {
+      it('should return the import state', () => {
         expect(returned.exportedEntities).to.have.lengthOf(1);
         expect(returned.exportedApplications).to.have.lengthOf(1);
         expect(returned.exportedDeployments).to.have.lengthOf(0);
       });
-      it('creates the app config file in the same folder', () => {
+      it('should create the app config file in the same folder', () => {
         expect(fse.statSync('.yo-rc.json').isFile()).to.be.true;
       });
-      it('creates the entity folder in the same folder', () => {
+      it('should create the entity folder in the same folder', () => {
         expect(fse.statSync('.jhipster').isDirectory()).to.be.true;
         expect(fse.statSync(path.join('.jhipster', 'BankAccount.json')).isFile()).to.be.true;
       });
@@ -573,15 +605,15 @@ describe('JDLImporter', () => {
         fse.removeSync('.jhipster');
       });
 
-      it('returns the import state', () => {
+      it('should return the import state', () => {
         expect(returned.exportedEntities).to.have.lengthOf(1);
         expect(returned.exportedApplications).to.have.lengthOf(1);
         expect(returned.exportedDeployments).to.have.lengthOf(0);
       });
-      it('creates the app config file in the same folder', () => {
+      it('should create the app config file in the same folder', () => {
         expect(fse.statSync('.yo-rc.json').isFile()).to.be.true;
       });
-      it('creates the entity folder in the same folder', () => {
+      it('should create the entity folder in the same folder', () => {
         expect(fse.statSync('.jhipster').isDirectory()).to.be.true;
         expect(fse.statSync(path.join('.jhipster', 'BankAccount.json')).isFile()).to.be.true;
       });
@@ -604,14 +636,14 @@ describe('JDLImporter', () => {
         fse.removeSync('.jhipster');
       });
 
-      it('returns the import state', () => {
+      it('should return the import state', () => {
         expect(returned.exportedEntities).to.have.lengthOf(1);
         expect(returned.exportedApplications).to.have.lengthOf(1);
       });
-      it('creates the app config file in the same folder', () => {
+      it('should create the app config file in the same folder', () => {
         expect(fse.statSync('.yo-rc.json').isFile()).to.be.true;
         expect(content['generator-jhipster'].entitySuffix).to.equal('Entity');
-        expect(content['generator-jhipster'].dtoSuffix).to.equal('');
+        expect(content['generator-jhipster'].dtoSuffix).to.equal('DTO');
       });
     });
     context('when parsing JDL applications and exporting them', () => {
@@ -779,13 +811,13 @@ describe('JDLImporter', () => {
         });
       });
 
-      it('creates the folders and the .yo-rc.json files', () => {
+      it('should create the folders and the .yo-rc.json files', () => {
         APPLICATION_NAMES.forEach(applicationName => {
           expect(fse.statSync(path.join(applicationName, '.yo-rc.json')).isFile()).to.be.true;
           expect(fse.statSync(applicationName).isDirectory()).to.be.true;
         });
       });
-      it('exports the application contents', () => {
+      it('should export the application contents', () => {
         expect(contents).to.deep.equal(expectedContents);
       });
     });
@@ -904,6 +936,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -918,6 +951,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -932,6 +966,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -947,6 +982,7 @@ describe('JDLImporter', () => {
           dto: 'no',
           pagination: 'no',
           readOnly: false,
+          embedded: false,
           service: 'no',
           jpaMetamodelFiltering: false,
           fluentMethods: true,
@@ -974,12 +1010,12 @@ describe('JDLImporter', () => {
         });
       });
 
-      it('generates correct import state', () => {
+      it('should generate correct import state', () => {
         expect(importState.exportedApplications.length).to.eql(3);
         expect(importState.exportedEntities.length).to.eql(4);
       });
 
-      it('exports the applications', () => {
+      it('should export the applications', () => {
         APPLICATION_NAMES.forEach((applicationName, index) => {
           expect(fse.statSync(path.join(applicationName)).isDirectory()).to.be.true;
           const appConfPath = path.join(applicationName, '.yo-rc.json');
@@ -988,7 +1024,8 @@ describe('JDLImporter', () => {
           expect(readJSON).to.deep.equal(expectedApplications[index]);
         });
       });
-      it('exports the entities for each application', () => {
+
+      it('should export the entities for each application', () => {
         APPLICATION_NAMES.forEach(applicationName => {
           let readJSON;
           expect(fse.statSync(path.join(applicationName, '.jhipster')).isDirectory()).to.be.true;
@@ -1049,6 +1086,7 @@ describe('JDLImporter', () => {
 
       before(() => {
         const importer = createImporterFromFiles([path.join('test', 'test_files', 'annotations.jdl')], {
+          applicationName: 'toto',
           databaseType: DatabaseTypes.SQL
         });
         returned = importer.import();
@@ -1306,17 +1344,17 @@ describe('JDLImporter', () => {
         fse.removeSync('docker-compose');
       });
 
-      it('creates the folders and the .yo-rc.json files', () => {
+      it('should create the folders and the .yo-rc.json files', () => {
         APPLICATION_NAMES.forEach(applicationName => {
           expect(fse.statSync(path.join(applicationName, '.yo-rc.json')).isFile()).to.be.true;
           expect(fse.statSync(applicationName).isDirectory()).to.be.true;
         });
       });
-      it('creates the docker-compose folder with .yo-rc.json file', () => {
+      it('should create the docker-compose folder with .yo-rc.json file', () => {
         expect(fse.statSync(path.join('docker-compose', '.yo-rc.json')).isFile()).to.be.true;
         expect(fse.statSync('docker-compose').isDirectory()).to.be.true;
       });
-      it('exports the application & deployment contents', () => {
+      it('should export the application & deployment contents', () => {
         expect(contents).to.deep.equal(expectedContents);
       });
     });
@@ -1388,13 +1426,13 @@ describe('JDLImporter', () => {
         });
       });
 
-      it('creates the folders and the .yo-rc.json files', () => {
+      it('should create the folders and the .yo-rc.json files', () => {
         DEPLOYMENT_NAMES.forEach(name => {
           expect(fse.statSync(path.join(name, '.yo-rc.json')).isFile()).to.be.true;
           expect(fse.statSync(name).isDirectory()).to.be.true;
         });
       });
-      it('exports the deployment contents', () => {
+      it('should export the deployment contents', () => {
         expect(contents).to.deep.equal(expectedContents);
       });
     });
@@ -1594,13 +1632,13 @@ describe('JDLImporter', () => {
         });
       });
 
-      it('creates the folders and the .yo-rc.json files', () => {
+      it('should create the folders and the .yo-rc.json files', () => {
         FOLDER_NAMES.forEach(applicationName => {
           expect(fse.statSync(path.join(applicationName, '.yo-rc.json')).isFile()).to.be.true;
           expect(fse.statSync(applicationName).isDirectory()).to.be.true;
         });
       });
-      it('exports the application & deployment contents', () => {
+      it('should export the application & deployment contents', () => {
         expect(contents).to.deep.equal(expectedContents);
       });
     });
@@ -1626,6 +1664,220 @@ describe('JDLImporter', () => {
         expect(exported.fields[0].fieldValues).to.equal(
           'ARCHIVE (archive),DEV (development),INTEGRATION (integration),PROD (production),TEST (test),UAT (uat),NON_PROD (nonProd)'
         );
+      });
+    });
+    context('when parsing JDL applications with options inside', () => {
+      let entityA;
+      let entityB;
+      let entityCInTata;
+      let entityCInTutu;
+      let entityD;
+      let entityE;
+      let entityF;
+
+      before(() => {
+        const importer = createImporterFromContent(
+          `application {
+  config {
+    applicationType monolith
+    baseName tata
+  }
+  entities A, B, C
+  paginate A, C with pagination
+}
+application {
+  config {
+    applicationType monolith
+    baseName tutu
+  }
+  entities C, D, E
+  dto D with mapstruct
+}
+entity A
+entity B
+entity C
+entity D
+entity E
+entity F
+
+paginate * with infinite-scroll
+`,
+          {
+            creationTimestamp: new Date(2020, 0, 1, 1, 0, 0),
+            generatorVersion: '7.0.0'
+          }
+        );
+        importer.import();
+        entityA = JSON.parse(fse.readFileSync(path.join('tata', '.jhipster', 'A.json'), 'utf-8'));
+        entityB = JSON.parse(fse.readFileSync(path.join('tata', '.jhipster', 'B.json'), 'utf-8'));
+        entityCInTata = JSON.parse(fse.readFileSync(path.join('tata', '.jhipster', 'C.json'), 'utf-8'));
+        entityCInTutu = JSON.parse(fse.readFileSync(path.join('tutu', '.jhipster', 'C.json'), 'utf-8'));
+        entityD = JSON.parse(fse.readFileSync(path.join('tutu', '.jhipster', 'D.json'), 'utf-8'));
+        entityE = JSON.parse(fse.readFileSync(path.join('tutu', '.jhipster', 'E.json'), 'utf-8'));
+        entityF =
+          fse.pathExistsSync(path.join('tata', '.jhipster', 'F.json')) ||
+          fse.pathExistsSync(path.join('tutu', '.jhipster', 'F.json'));
+      });
+
+      after(() => {
+        fse.removeSync('tata');
+        fse.removeSync('tutu');
+      });
+
+      it('should set them', () => {
+        expect(entityA).to.deep.equal({
+          applications: ['tata'],
+          changelogDate: formatDateForLiquibase({ date: new Date(2020, 0, 1, 1, 0, 0), increment: 1 }),
+          clientRootFolder: '',
+          dto: 'no',
+          embedded: false,
+          entityTableName: 'a',
+          fields: [],
+          fluentMethods: true,
+          jpaMetamodelFiltering: false,
+          name: 'A',
+          pagination: 'pagination',
+          readOnly: false,
+          relationships: [],
+          service: 'no'
+        });
+        expect(entityB).to.deep.equal({
+          applications: ['tata'],
+          changelogDate: formatDateForLiquibase({ date: new Date(2020, 0, 1, 1, 0, 0), increment: 2 }),
+          clientRootFolder: '',
+          dto: 'no',
+          embedded: false,
+          entityTableName: 'b',
+          fields: [],
+          fluentMethods: true,
+          jpaMetamodelFiltering: false,
+          name: 'B',
+          pagination: 'infinite-scroll',
+          readOnly: false,
+          relationships: [],
+          service: 'no'
+        });
+        expect(entityCInTata).to.deep.equal({
+          applications: ['tata', 'tutu'],
+          changelogDate: formatDateForLiquibase({ date: new Date(2020, 0, 1, 1, 0, 0), increment: 3 }),
+          clientRootFolder: '',
+          dto: 'no',
+          embedded: false,
+          entityTableName: 'c',
+          fields: [],
+          fluentMethods: true,
+          jpaMetamodelFiltering: false,
+          name: 'C',
+          pagination: 'pagination',
+          readOnly: false,
+          relationships: [],
+          service: 'no'
+        });
+        expect(entityCInTutu).to.deep.equal({
+          applications: ['tata', 'tutu'],
+          changelogDate: formatDateForLiquibase({ date: new Date(2020, 0, 1, 1, 0, 0), increment: 3 }),
+          clientRootFolder: '',
+          dto: 'no',
+          embedded: false,
+          entityTableName: 'c',
+          fields: [],
+          fluentMethods: true,
+          jpaMetamodelFiltering: false,
+          name: 'C',
+          pagination: 'pagination',
+          readOnly: false,
+          relationships: [],
+          service: 'no'
+        });
+        expect(entityD).to.deep.equal({
+          applications: ['tutu'],
+          changelogDate: formatDateForLiquibase({ date: new Date(2020, 0, 1, 1, 0, 0), increment: 4 }),
+          clientRootFolder: '',
+          dto: 'mapstruct',
+          embedded: false,
+          entityTableName: 'd',
+          fields: [],
+          fluentMethods: true,
+          jpaMetamodelFiltering: false,
+          name: 'D',
+          pagination: 'infinite-scroll',
+          readOnly: false,
+          relationships: [],
+          service: 'serviceClass'
+        });
+        expect(entityE).to.deep.equal({
+          applications: ['tutu'],
+          changelogDate: formatDateForLiquibase({ date: new Date(2020, 0, 1, 1, 0, 0), increment: 5 }),
+          clientRootFolder: '',
+          dto: 'no',
+          embedded: false,
+          entityTableName: 'e',
+          fields: [],
+          fluentMethods: true,
+          jpaMetamodelFiltering: false,
+          name: 'E',
+          pagination: 'infinite-scroll',
+          readOnly: false,
+          relationships: [],
+          service: 'no'
+        });
+      });
+      it('should not generate entity not in any app', () => {
+        expect(entityF).to.be.false;
+      });
+    });
+    context('when passing skipYoRcGeneration and skipEntityFilesGeneration options', () => {
+      before(() => {
+        expect(fse.existsSync('.yo-rc.json')).to.be.false;
+        expect(fse.existsSync('.jhipster')).to.be.false;
+
+        const importer = createImporterFromContent(
+          `application {
+  config {
+    applicationType monolith
+    baseName tata
+    clientFramework angularX
+  }
+  entities A
+}
+
+entity A
+
+paginate * with infinite-scroll
+`,
+          {
+            creationTimestamp: new Date(2020, 0, 1, 1, 0, 0),
+            generatorVersion: '7.0.0',
+            skipYoRcGeneration: true,
+            skipEntityFilesGeneration: true
+          }
+        );
+        importer.import();
+      });
+
+      it('should not write the .yo-rc.json file', () => {
+        expect(fse.existsSync('.yo-rc.json')).to.be.false;
+      });
+
+      it('should not create the .jhipster folder', () => {
+        expect(fse.existsSync('.jhipster')).to.be.false;
+      });
+    });
+    context('when not exporting entities but only applications', () => {
+      before(() => {
+        const importer = createImporterFromFiles([path.join('test', 'test_files', 'application.jdl')], {
+          creationTimestamp: '2019-01-01'
+        });
+        importer.import();
+      });
+      after(() => {
+        fse.removeSync('.yo-rc.json');
+      });
+      it('should export the .yo-rc.json file', () => {
+        expect(fse.existsSync('.yo-rc.json')).to.be.true;
+      });
+      it('should not create the .jhipster folder', () => {
+        expect(fse.existsSync('.jhipster')).to.be.false;
       });
     });
   });

@@ -34,6 +34,18 @@ const {
   REQUIRED,
   UNIQUE
 } = require('../../../lib/core/jhipster/validations');
+const {
+  READ_ONLY,
+  NO_FLUENT_METHOD,
+  FILTER,
+  SKIP_SERVER,
+  SKIP_CLIENT,
+  EMBEDDED
+} = require('../../../lib/core/jhipster/unary_options');
+
+const { Options, Values } = require('../../../lib/core/jhipster/binary_options');
+
+const { SEARCH, SERVICE, PAGINATION, DTO, ANGULAR_SUFFIX, MICROSERVICE } = Options;
 
 describe('Grammar tests', () => {
   context('when parsing constants', () => {
@@ -78,7 +90,8 @@ MAX = 43`);
           entities: {
             entityList: [],
             excluded: []
-          }
+          },
+          options: {}
         });
       });
     });
@@ -104,7 +117,8 @@ MAX = 43`);
           entities: {
             entityList: [],
             excluded: []
-          }
+          },
+          options: {}
         });
       });
     });
@@ -139,7 +153,8 @@ application {
             entities: {
               entityList: [],
               excluded: []
-            }
+            },
+            options: {}
           },
           {
             config: {
@@ -149,7 +164,8 @@ application {
             entities: {
               entityList: [],
               excluded: []
-            }
+            },
+            options: {}
           }
         ]);
       });
@@ -215,6 +231,44 @@ application {
           it('should parse the list', () => {
             expect(application.entities.excluded).to.deep.equal(['A']);
           });
+        });
+      });
+    });
+    context('when having options', () => {
+      let application;
+
+      before(() => {
+        const content = parseFromContent(`application {
+  config {
+    baseName superApp
+    applicationType monolith
+  }
+  entities A, B, C
+  readOnly B
+  paginate A with pagination
+  search * with couchbase except C
+}`);
+        application = content.applications[0];
+      });
+
+      it('should parse them', () => {
+        expect(application.options).to.deep.equal({
+          readOnly: {
+            list: ['B'],
+            excluded: []
+          },
+          pagination: {
+            pagination: {
+              list: ['A'],
+              excluded: []
+            }
+          },
+          search: {
+            couchbase: {
+              list: ['*'],
+              excluded: ['C']
+            }
+          }
         });
       });
     });
@@ -596,28 +650,6 @@ entity A`);
             expect(parsedEntity.body[0].validations).to.deep.equal([
               {
                 key: PATTERN,
-                value: '[A-Za-z]\\d'
-              }
-            ]);
-          });
-        });
-        context(`with the ${READONLY} validation`, () => {
-          let parsedEntity;
-
-          before(() => {
-            const content = parseFromContent(
-              `entity A {
-  name String ${READONLY}(/[A-Za-z]\\d/)
-}
-`
-            );
-            parsedEntity = content.entities[0];
-          });
-
-          it('should parse it', () => {
-            expect(parsedEntity.body[0].validations).to.deep.equal([
-              {
-                key: READONLY,
                 value: '[A-Za-z]\\d'
               }
             ]);
@@ -1144,6 +1176,23 @@ entity A {
           });
         });
       });
+      [READ_ONLY, EMBEDDED, SKIP_CLIENT, SKIP_SERVER, FILTER, NO_FLUENT_METHOD].forEach(option => {
+        context(option, () => {
+          let parsedOption;
+
+          before(() => {
+            const content = parseFromContent(`${option} A`);
+            parsedOption = content.options[option];
+          });
+
+          it('should parse it', () => {
+            expect(parsedOption).to.deep.equal({
+              list: ['A'],
+              excluded: []
+            });
+          });
+        });
+      });
     });
     context('being binary', () => {
       context('being clientRootFolder', () => {
@@ -1196,6 +1245,43 @@ entity A {
               excluded: ['A'],
               list: ['*']
             }
+          });
+        });
+      });
+      [SEARCH, SERVICE, PAGINATION, DTO].forEach(option => {
+        context(option, () => {
+          Object.keys(Values[option]).forEach(key => {
+            let parsedOption;
+
+            before(() => {
+              const value = Values[option][key];
+              const content = parseFromContent(`${option === PAGINATION ? 'paginate' : option} A with ${value}`);
+              parsedOption = content.options[option][value];
+            });
+
+            it('should parse it', () => {
+              expect(parsedOption).to.deep.equal({
+                list: ['A'],
+                excluded: []
+              });
+            });
+          });
+        });
+      });
+      [MICROSERVICE, ANGULAR_SUFFIX].forEach(option => {
+        context(option, () => {
+          let parsedOption;
+
+          before(() => {
+            const content = parseFromContent(`${option} A with toto`);
+            parsedOption = content.options[option].toto;
+          });
+
+          it('should parse it', () => {
+            expect(parsedOption).to.deep.equal({
+              list: ['A'],
+              excluded: []
+            });
           });
         });
       });

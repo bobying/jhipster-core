@@ -23,7 +23,7 @@ const JDLEnums = require('../../../lib/core/jdl_enums');
 const JDLEnum = require('../../../lib/core/jdl_enum');
 
 describe('JDLEnums', () => {
-  describe('#add', () => {
+  describe('add', () => {
     let jdlEnums;
 
     before(() => {
@@ -31,28 +31,28 @@ describe('JDLEnums', () => {
     });
 
     context('when adding an invalid enum', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           jdlEnums.add(new JDLEnum({ name: '' }));
         }).to.throw("The enum's name must be passed to create an enum.");
       });
     });
     context('when adding an invalid element', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           jdlEnums.add();
         }).to.throw('The enum must be valid in order to be added to the enums.\nError: No enum.');
       });
     });
     context('when adding a valid enum', () => {
-      it('does not fail', () => {
+      it('should not fail', () => {
         expect(() => {
           jdlEnums.add(new JDLEnum({ name: 'A' }));
         }).not.to.throw();
       });
     });
   });
-  describe('#get', () => {
+  describe('get', () => {
     let jdlEnums;
 
     before(() => {
@@ -60,7 +60,7 @@ describe('JDLEnums', () => {
     });
 
     context('when fetching an absent enum', () => {
-      it('returns null', () => {
+      it('should return null', () => {
         expect(jdlEnums.get('A')).to.be.undefined;
       });
     });
@@ -72,12 +72,12 @@ describe('JDLEnums', () => {
         jdlEnums.add(jdlEnum);
       });
 
-      it('returns it', () => {
+      it('should return it', () => {
         expect(jdlEnums.get(jdlEnum.name)).to.deep.equal(jdlEnum);
       });
     });
   });
-  describe('#has', () => {
+  describe('has', () => {
     let jdlEnums;
 
     before(() => {
@@ -85,7 +85,7 @@ describe('JDLEnums', () => {
     });
 
     context('when fetching an absent enum', () => {
-      it('returns false', () => {
+      it('should return false', () => {
         expect(jdlEnums.has('A')).to.be.false;
       });
     });
@@ -97,12 +97,12 @@ describe('JDLEnums', () => {
         jdlEnums.add(jdlEnum);
       });
 
-      it('true', () => {
+      it('should return true', () => {
         expect(jdlEnums.has(jdlEnum.name)).to.be.true;
       });
     });
   });
-  describe('#forEach', () => {
+  describe('forEach', () => {
     let jdlEnums;
 
     before(() => {
@@ -110,7 +110,7 @@ describe('JDLEnums', () => {
     });
 
     context('when not passing a function', () => {
-      it('does not fail', () => {
+      it('should not fail', () => {
         jdlEnums.forEach();
       });
     });
@@ -125,12 +125,12 @@ describe('JDLEnums', () => {
         });
       });
 
-      it('uses each enum name', () => {
+      it('should use each enum name', () => {
         expect(result).to.deep.equal(['A', 'B']);
       });
     });
   });
-  describe('#size', () => {
+  describe('size', () => {
     let jdlEnums;
 
     before(() => {
@@ -138,7 +138,7 @@ describe('JDLEnums', () => {
     });
 
     context('when there is no element', () => {
-      it('returns 0', () => {
+      it('should return 0', () => {
         expect(jdlEnums.size()).to.equal(0);
       });
     });
@@ -152,7 +152,7 @@ describe('JDLEnums', () => {
         jdlEnums = new JDLEnums();
       });
 
-      it('returns the number of enums', () => {
+      it('should return the number of enums', () => {
         expect(jdlEnums.size()).to.equal(3);
       });
     });
@@ -162,12 +162,12 @@ describe('JDLEnums', () => {
         jdlEnums.add(new JDLEnum({ name: 'A' }));
       });
 
-      it('counts it as one enum', () => {
+      it('should count it as one enum', () => {
         expect(jdlEnums.size()).to.equal(1);
       });
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     let jdlEnums;
 
     before(() => {
@@ -175,7 +175,7 @@ describe('JDLEnums', () => {
     });
 
     context('when there is no enum', () => {
-      it('returns an empty string', () => {
+      it('should return an empty string', () => {
         expect(jdlEnums.toString()).to.equal('');
       });
     });
@@ -185,7 +185,7 @@ describe('JDLEnums', () => {
         jdlEnums.add(new JDLEnum({ name: 'B', values: ['BA', 'BB', 'BC'].map(value => ({ key: value })) }));
       });
 
-      it('returns a stringified version of enums', () => {
+      it('should return a stringified version of enums', () => {
         expect(jdlEnums.toString()).to.equal(`enum A {
   AA,
   AB

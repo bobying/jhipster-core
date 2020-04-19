@@ -4,10 +4,10 @@
   "relationships": [
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": ["required"],
+      "relationshipValidateRules": "required",
       "relationshipName": "region",
       "otherEntityName": "region",
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "country"
     }

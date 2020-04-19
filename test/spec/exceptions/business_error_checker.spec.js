@@ -27,7 +27,7 @@ const { expect } = chai;
 
 const BusinessErrorChecker = require('../../../lib/validators/business_error_checker');
 const ApplicationTypes = require('../../../lib/core/jhipster/application_types');
-const ApplicationOptions = require('../../../lib/core/jhipster/application_options');
+const { OptionNames } = require('../../../lib/core/jhipster/application_options');
 const BinaryOptions = require('../../../lib/core/jhipster/binary_options');
 const DatabaseTypes = require('../../../lib/core/jhipster/database_types');
 const FieldTypes = require('../../../lib/core/jhipster/field_types');
@@ -35,8 +35,7 @@ const RelationshipTypes = require('../../../lib/core/jhipster/relationship_types
 const UnaryOptions = require('../../../lib/core/jhipster/unary_options');
 const Validations = require('../../../lib/core/jhipster/validations');
 const ValidatedJDLObject = require('../../../lib/core/validated_jdl_object');
-const JDLMonolithApplication = require('../../../lib/core/jdl_monolith_application');
-const JDLMicroserviceApplication = require('../../../lib/core/jdl_microservice_application');
+const { createJDLApplication } = require('../../../lib/core/jdl_application_factory');
 const JDLBinaryOption = require('../../../lib/core/jdl_binary_option');
 const JDLEntity = require('../../../lib/core/jdl_entity');
 const JDLEnum = require('../../../lib/core/jdl_enum');
@@ -47,14 +46,14 @@ const JDLValidation = require('../../../lib/core/jdl_validation');
 const logger = require('../../../lib/utils/objects/logger');
 
 describe('BusinessErrorChecker', () => {
-  describe('#checkForErrors', () => {
+  describe('checkForErrors', () => {
     let checker;
 
     context('with no passed JDL object', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           new BusinessErrorChecker();
-        }).to.throw('A JDL object must be passed to check for business errors.');
+        }).to.throw(/^A JDL object must be passed to check for business errors\.$/);
       });
     });
     context('with a complete JDL object', () => {
@@ -68,9 +67,8 @@ describe('BusinessErrorChecker', () => {
 
       before(() => {
         const jdlObject = new ValidatedJDLObject();
-        const application = new JDLMonolithApplication({
-          entities: ['MyEntity']
-        });
+        const application = createJDLApplication({ applicationType: ApplicationTypes.MONOLITH });
+        application.addEntityNames(['MyEntity']);
         const entity = new JDLEntity({
           name: 'MyEntity'
         });
@@ -127,7 +125,7 @@ describe('BusinessErrorChecker', () => {
         optionCheckSpy.restore();
       });
 
-      it('checks it', () => {
+      it('should check it', () => {
         expect(applicationCheckSpy).to.have.been.called;
         expect(entityCheckSpy).to.have.been.called;
         expect(fieldCheckSpy).to.have.been.called;
@@ -138,7 +136,7 @@ describe('BusinessErrorChecker', () => {
       });
     });
   });
-  describe('#checkForEntityErrors', () => {
+  describe('checkForEntityErrors', () => {
     let checker;
     let jdlObject;
     let checkForFieldErrorsStub;
@@ -182,7 +180,7 @@ describe('BusinessErrorChecker', () => {
         delete jdlObject.entities.valid;
       });
 
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           checker.checkForEntityErrors();
         }).to.throw("The name 'Continue' is a reserved keyword and can not be used as an entity class name.");
@@ -208,7 +206,7 @@ describe('BusinessErrorChecker', () => {
           loggerStub.restore();
         });
 
-        it('warns', () => {
+        it('should warn', () => {
           expect(loggerStub).to.have.been.calledOnce;
           expect(loggerStub.getCall(0).args[0]).to.equal(
             "The table name 'continue' is a reserved keyword, so it will be prefixed with the value of 'jhiPrefix'."
@@ -220,14 +218,12 @@ describe('BusinessErrorChecker', () => {
       context('with an entity having a reserved table name', () => {
         let loggerStub;
         before(() => {
-          jdlObject.addApplication(
-            new JDLMonolithApplication({
-              config: {
-                databaseType: DatabaseTypes.SQL
-              },
-              entities: ['valid']
-            })
-          );
+          const application = createJDLApplication({
+            applicationType: ApplicationTypes.MONOLITH,
+            databaseType: DatabaseTypes.SQL
+          });
+          application.addEntityNames(['valid']);
+          jdlObject.addApplication(application);
           jdlObject.addEntity(
             new JDLEntity({
               name: 'valid',
@@ -242,7 +238,7 @@ describe('BusinessErrorChecker', () => {
           loggerStub.restore();
         });
 
-        it('warns', () => {
+        it('should warn', () => {
           expect(loggerStub).to.have.been.calledOnce;
           expect(loggerStub.getCall(0).args[0]).to.equal(
             "The table name 'continue' is a reserved keyword for at least one of these applications: jhipster, " +
@@ -252,7 +248,7 @@ describe('BusinessErrorChecker', () => {
       });
     });
   });
-  describe('#checkForFieldErrors', () => {
+  describe('checkForFieldErrors', () => {
     let checker;
     let jdlObject;
     let checkForValidationErrorsStub;
@@ -298,7 +294,7 @@ describe('BusinessErrorChecker', () => {
         loggerStub.restore();
       });
 
-      it('warns', () => {
+      it('should warn', () => {
         expect(loggerStub).to.have.been.calledOnce;
         expect(loggerStub.getCall(0).args[0]).to.equal(
           "The name 'catch' is a reserved keyword, so it will be prefixed with the value of 'jhiPrefix'."
@@ -334,14 +330,12 @@ describe('BusinessErrorChecker', () => {
     context('if the field type is invalid for a database type', () => {
       context('when checking a JDL object with a JDL application', () => {
         before(() => {
-          jdlObject.addApplication(
-            new JDLMonolithApplication({
-              config: {
-                databaseType: DatabaseTypes.SQL
-              },
-              entities: ['Valid']
-            })
-          );
+          const application = createJDLApplication({
+            applicationType: ApplicationTypes.MONOLITH,
+            databaseType: DatabaseTypes.SQL
+          });
+          application.addEntityNames(['Valid']);
+          jdlObject.addApplication(application);
           const validEntity = new JDLEntity({
             name: 'Valid'
           });
@@ -355,7 +349,7 @@ describe('BusinessErrorChecker', () => {
           checker = new BusinessErrorChecker(jdlObject);
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             checker.checkForFieldErrors('Valid', jdlObject.getEntity('Valid').fields);
           }).to.throw("The type 'WeirdType' is an unknown field type for field 'validField' of entity 'Valid'.");
@@ -378,7 +372,7 @@ describe('BusinessErrorChecker', () => {
           });
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             checker.checkForFieldErrors('Valid', jdlObject.getEntity('Valid').fields);
           }).to.throw("The type 'WeirdType' is an unknown field type for field 'validField' of entity 'Valid'.");
@@ -386,7 +380,7 @@ describe('BusinessErrorChecker', () => {
       });
     });
   });
-  describe('#checkForValidationErrors', () => {
+  describe('checkForValidationErrors', () => {
     let checker;
     let jdlObject;
 
@@ -414,14 +408,14 @@ describe('BusinessErrorChecker', () => {
         checker = new BusinessErrorChecker(jdlObject);
       });
 
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           checker.checkForValidationErrors(jdlObject.getEntity('Valid').fields.validField);
         }).to.throw("The validation 'min' isn't supported for the type 'String'.");
       });
     });
   });
-  describe('#checkForRelationshipErrors', () => {
+  describe('checkForRelationshipErrors', () => {
     context('when the source entity is missing', () => {
       let checker;
 
@@ -446,7 +440,7 @@ describe('BusinessErrorChecker', () => {
         checker = new BusinessErrorChecker(jdlObject);
       });
 
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           checker.checkForRelationshipErrors();
         }).to.throw('In the relationship between Source and Valid, Source is not declared.');
@@ -473,7 +467,7 @@ describe('BusinessErrorChecker', () => {
             checker = new BusinessErrorChecker(jdlObject);
           });
 
-          it('does not fail', () => {
+          it('should not fail', () => {
             expect(() => {
               checker.checkForRelationshipErrors();
             }).not.to.throw();
@@ -501,14 +495,14 @@ describe('BusinessErrorChecker', () => {
             jdlObject.addRelationship(relationship);
             jdlObject.addOption(
               new JDLUnaryOption({
-                name: ApplicationOptions.names.SKIP_USER_MANAGEMENT
+                name: OptionNames.SKIP_USER_MANAGEMENT
               })
             );
             delete jdlObject.entities.User;
             checker = new BusinessErrorChecker(jdlObject);
           });
 
-          it('fails', () => {
+          it('should fail', () => {
             expect(() => {
               checker.checkForRelationshipErrors();
             }).to.throw('In the relationship between Source and User, User is not declared.');
@@ -534,7 +528,7 @@ describe('BusinessErrorChecker', () => {
           checker = new BusinessErrorChecker(jdlObject);
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             checker.checkForRelationshipErrors();
           }).to.throw('In the relationship between Source and Other, Other is not declared.');
@@ -546,31 +540,24 @@ describe('BusinessErrorChecker', () => {
 
       before(() => {
         const jdlObject = new ValidatedJDLObject();
-
-        jdlObject.addApplication(
-          new JDLMicroserviceApplication({
-            config: {
-              baseName: 'app1'
-            },
-            entities: ['A', 'B']
-          })
-        );
-        jdlObject.addApplication(
-          new JDLMicroserviceApplication({
-            config: {
-              baseName: 'app2'
-            },
-            entities: ['B', 'C']
-          })
-        );
-        jdlObject.addApplication(
-          new JDLMicroserviceApplication({
-            config: {
-              baseName: 'app3'
-            },
-            entities: ['A', 'B', 'C']
-          })
-        );
+        const application1 = createJDLApplication({
+          applicationType: ApplicationTypes.MICROSERVICE,
+          baseName: 'app1'
+        });
+        application1.addEntityNames(['A', 'B']);
+        const application2 = createJDLApplication({
+          applicationType: ApplicationTypes.MICROSERVICE,
+          baseName: 'app2'
+        });
+        application2.addEntityNames(['B', 'C']);
+        const application3 = createJDLApplication({
+          applicationType: ApplicationTypes.MICROSERVICE,
+          baseName: 'app3'
+        });
+        application3.addEntityNames(['A', 'B', 'C']);
+        jdlObject.addApplication(application1);
+        jdlObject.addApplication(application2);
+        jdlObject.addApplication(application3);
         jdlObject.addEntity(
           new JDLEntity({
             name: 'A'
@@ -615,14 +602,14 @@ describe('BusinessErrorChecker', () => {
         );
         checker = new BusinessErrorChecker(jdlObject);
       });
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           checker.checkForRelationshipErrors();
         }).to.throw("Entities for the ManyToMany relationship from 'B' to 'C' do not belong to the same application.");
       });
     });
   });
-  describe('#checkForOptionErrors', () => {
+  describe('checkForOptionErrors', () => {
     let checker;
     let jdlObject;
 
@@ -636,14 +623,12 @@ describe('BusinessErrorChecker', () => {
     context('when having a JDL with pagination and Cassandra as database type', () => {
       context('inside a JDL application', () => {
         before(() => {
-          jdlObject.addApplication(
-            new JDLMonolithApplication({
-              config: {
-                databaseType: DatabaseTypes.CASSANDRA
-              },
-              entities: ['A']
-            })
-          );
+          const application = createJDLApplication({
+            applicationType: ApplicationTypes.MONOLITH,
+            databaseType: DatabaseTypes.CASSANDRA
+          });
+          application.addEntityNames(['A']);
+          jdlObject.addApplication(application);
           jdlObject.addEntity(
             new JDLEntity({
               name: 'A'
@@ -659,7 +644,7 @@ describe('BusinessErrorChecker', () => {
           checker = new BusinessErrorChecker(jdlObject);
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             checker.checkForOptionErrors();
           }).to.throw(
@@ -678,7 +663,7 @@ describe('BusinessErrorChecker', () => {
           checker = new BusinessErrorChecker(jdlObject, { databaseType: DatabaseTypes.CASSANDRA });
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             checker.checkForOptionErrors();
           }).to.throw("Pagination isn't allowed when the app uses Cassandra.");
@@ -704,7 +689,7 @@ describe('BusinessErrorChecker', () => {
         checker = new BusinessErrorChecker(jdlObject, { databaseType: DatabaseTypes.SQL });
       });
 
-      it('does not fail', () => {
+      it('should not fail', () => {
         expect(() => {
           checker.checkForOptionErrors();
         }).not.to.throw();
@@ -743,7 +728,7 @@ describe('BusinessErrorChecker', () => {
         );
         checker = new BusinessErrorChecker(jdlObject, { databaseType: DatabaseTypes.SQL });
       });
-      it("doesn't fail", () => {
+      it('should not fail', () => {
         expect(() => {
           checker.checkForOptionErrors();
         }).not.to.throw();

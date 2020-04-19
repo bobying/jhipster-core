@@ -4,28 +4,28 @@
   "relationships": [
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": ["required"],
+      "relationshipValidateRules": "required",
       "relationshipName": "department",
       "otherEntityName": "department",
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     },
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": ["required"],
+      "relationshipValidateRules": "required",
       "relationshipName": "job",
       "otherEntityName": "job",
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     },
     {
       "relationshipType": "one-to-one",
-      "relationshipValidateRules": ["required"],
+      "relationshipValidateRules": "required",
       "relationshipName": "employee",
       "otherEntityName": "employee",
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "jobHistory"
     }

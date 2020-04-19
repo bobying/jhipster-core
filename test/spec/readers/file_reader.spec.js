@@ -22,19 +22,19 @@ const { expect } = require('chai');
 const FileReader = require('../../../lib/readers/file_reader');
 
 describe('FileReader', () => {
-  describe('::readFile', () => {
+  describe('readFile', () => {
     context('when passing a nil path', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           FileReader.readFile(null);
-        }).to.throw('The passed file must not be nil to be read.');
+        }).to.throw(/^The passed file must not be nil to be read\.$/);
       });
     });
     context('when passing a directory', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           FileReader.readFile('.');
-        }).to.throw("The passed file '.' must exist and must not be a directory to be read.");
+        }).to.throw(/^The passed file '.' must exist and must not be a directory to be read\.$/);
       });
     });
     context('when passing a valid text file', () => {
@@ -49,24 +49,24 @@ describe('FileReader', () => {
         fs.unlinkSync('./myFile.txt');
       });
 
-      it('reads it', () => {
+      it('should read it', () => {
         expect(content).to.equal('Hello World');
       });
     });
   });
-  describe('::readFiles', () => {
+  describe('readFiles', () => {
     context('when passing a nil iterable', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           FileReader.readFiles(null);
-        }).to.throw('The passed files must not be nil.');
+        }).to.throw(/^The passed files must not be nil\.$/);
       });
     });
     context('when passing a directory among the files', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           FileReader.readFiles(['.']);
-        }).to.throw("The passed file '.' must exist and must not be a directory to be read.");
+        }).to.throw(/^The passed file '.' must exist and must not be a directory to be read\.$/);
       });
     });
     context('when passing valid text files', () => {
@@ -83,7 +83,7 @@ describe('FileReader', () => {
         fs.unlinkSync('./myFile2.txt');
       });
 
-      it('reads them', () => {
+      it('should read them', () => {
         expect(content).to.deep.equal(['Hello...', ' World!']);
       });
     });

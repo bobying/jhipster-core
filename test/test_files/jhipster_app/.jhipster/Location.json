@@ -5,7 +5,7 @@
       "relationshipType": "one-to-one",
       "relationshipName": "country",
       "otherEntityName": "country",
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "location"
     }

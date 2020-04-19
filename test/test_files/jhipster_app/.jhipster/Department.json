@@ -5,20 +5,20 @@
       "relationshipType": "one-to-one",
       "relationshipName": "location",
       "otherEntityName": "location",
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "ownerSide": true,
       "otherEntityRelationshipName": "department"
     },
     {
       "relationshipType": "one-to-many",
-      "relationshipValidateRules": ["required"],
+      "relationshipValidateRules": "required",
       "relationshipName": "employee",
       "otherEntityName": "employee",
       "javadoc": "A relationship",
       "otherEntityRelationshipName": "department"
     },
     {
-      "otherEntityField": ["id"],
+      "otherEntityField": "id",
       "otherEntityName": "jobHistory",
       "otherEntityRelationshipName": "department",
       "ownerSide": false,

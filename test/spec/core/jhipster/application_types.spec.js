@@ -24,19 +24,19 @@ const { expect } = require('chai');
 const ApplicationTypes = require('../../../../lib/core/jhipster/application_types');
 
 describe('ApplicationTypes', () => {
-  describe('::exists', () => {
+  describe('exists', () => {
     context('when passing a nil arg', () => {
-      it('returns false', () => {
+      it('should return false', () => {
         expect(ApplicationTypes.exists()).to.be.false;
       });
     });
     context('when passing an invalid type', () => {
-      it('returns false', () => {
+      it('should return false', () => {
         expect(ApplicationTypes.exists('NotAType')).to.be.false;
       });
     });
     context('when passing a valid type', () => {
-      it('returns true', () => {
+      it('should return true', () => {
         expect(ApplicationTypes.exists(ApplicationTypes.UAA)).to.be.true;
       });
     });

@@ -23,42 +23,46 @@ const fs = require('fs');
 const JDLReader = require('../../../lib/readers/jdl_reader');
 
 describe('JDLReader', () => {
-  describe('::parseFromFiles', () => {
+  describe('parseFromFiles', () => {
     context('when passing invalid parameters', () => {
       context('such as nil', () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(null);
-          }).to.throw('The files must be passed to be parsed.');
+          }).to.throw(/^The files must be passed to be parsed\.$/);
         });
       });
       context('such as an empty array', () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles([]);
-          }).to.throw('The files must be passed to be parsed.');
+          }).to.throw(/^The files must be passed to be parsed\.$/);
         });
       });
       context("such as files without the '.jh' or '.jdl' file extension", () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(['../../test_files/invalid_file.txt']);
-          }).to.throw("The passed file '../../test_files/invalid_file.txt' must end with '.jh' or '.jdl' to be valid.");
+          }).to.throw(
+            new RegExp("The passed file '../../test_files/invalid_file.txt' must end with '.jh' or '.jdl' to be valid.")
+          );
         });
       });
       context('such as files that do not exist', () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(['nofile.jh']);
-          }).to.throw("The passed file 'nofile.jh' must exist and must not be a directory to be read.");
+          }).to.throw(new RegExp("The passed file 'nofile.jh' must exist and must not be a directory to be read."));
         });
       });
       context('such as folders', () => {
-        it('throws an error', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(['../../test_files/folder.jdl']);
           }).to.throw(
-            "The passed file '../../test_files/folder.jdl' must exist and must not be a directory to be read."
+            new RegExp(
+              "The passed file '../../test_files/folder.jdl' must exist and must not be a directory to be read."
+            )
           );
         });
       });
@@ -73,10 +77,10 @@ describe('JDLReader', () => {
           fs.unlinkSync('./test/test_files/test_file.jdl');
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(['./test/test_files/test_file.jdl']);
-          }).to.throw('File content must be passed, it is currently empty.');
+          }).to.throw(/^File content must be passed, it is currently empty\.$/);
         });
       });
       context('when passing a JDL file with a syntax error', () => {
@@ -88,10 +92,10 @@ describe('JDLReader', () => {
           fs.unlinkSync('./test/test_files/test_file.jdl');
         });
 
-        it('fails', () => {
+        it('should fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(['./test/test_files/test_file.jdl']);
-          }).to.throw(SyntaxError);
+          }).to.throw(/but found: 'enity'/);
         });
       });
       context('when reading a single JDL file', () => {
@@ -101,7 +105,7 @@ describe('JDLReader', () => {
           content = JDLReader.parseFromFiles(['./test/test_files/valid_jdl.jdl']);
         });
 
-        it('reads it', () => {
+        it('should read it', () => {
           expect(content).not.to.be.null;
         });
       });
@@ -112,7 +116,7 @@ describe('JDLReader', () => {
           content = JDLReader.parseFromFiles(['./test/test_files/valid_jdl.jdl', './test/test_files/valid_jdl2.jdl']);
         });
 
-        it('reads them', () => {
+        it('should read them', () => {
           expect(content).not.to.be.null;
         });
       });
@@ -123,12 +127,12 @@ describe('JDLReader', () => {
           content = JDLReader.parseFromFiles(['./test/test_files/complex_jdl.jdl']);
         });
 
-        it('reads them', () => {
+        it('should read them', () => {
           expect(content).not.to.be.null;
         });
       });
       context('when having multiple internal JDL comments', () => {
-        it('ignores them and does not fail', () => {
+        it('should ignore them and does not fail', () => {
           expect(() => {
             JDLReader.parseFromFiles(['./test/test_files/multiple_jdl_comments.jdl']);
           }).not.to.throw();
@@ -136,9 +140,9 @@ describe('JDLReader', () => {
       });
     });
   });
-  describe('::parseFromContent', () => {
+  describe('parseFromContent', () => {
     context('when passing an invalid content', () => {
-      it('fails', () => {
+      it('should fail', () => {
         expect(() => {
           JDLReader.parseFromContent('');
         }).to.throw();
@@ -151,7 +155,7 @@ describe('JDLReader', () => {
         content = JDLReader.parseFromContent('entity A');
       });
 
-      it('succeeds', () => {
+      it('should not fail', () => {
         expect(content).not.to.be.null;
       });
     });

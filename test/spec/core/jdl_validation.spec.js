@@ -23,7 +23,7 @@ const JDLValidation = require('../../../lib/core/jdl_validation');
 const Validations = require('../../../lib/core/jhipster/validations');
 
 describe('JDLValidation', () => {
-  describe('::new', () => {
+  describe('new', () => {
     context('when not passing any argument', () => {
       let validation;
 
@@ -31,9 +31,9 @@ describe('JDLValidation', () => {
         validation = new JDLValidation();
       });
 
-      it("defaults on the 'required' validation", () => {
-        expect(validation.name).to.eq('required');
-        expect(validation.value).to.eq('');
+      it("should default on the 'required' validation", () => {
+        expect(validation.name).to.equal('required');
+        expect(validation.value).to.equal('');
       });
     });
     context('when passing arguments', () => {
@@ -46,13 +46,13 @@ describe('JDLValidation', () => {
         });
       });
 
-      it('uses them', () => {
-        expect(validation.name).to.eq('min');
-        expect(validation.value).to.eq(42);
+      it('should use them', () => {
+        expect(validation.name).to.equal('min');
+        expect(validation.value).to.equal(42);
       });
     });
   });
-  describe('#toString', () => {
+  describe('toString', () => {
     context('with no value', () => {
       let validation;
 
@@ -60,8 +60,8 @@ describe('JDLValidation', () => {
         validation = new JDLValidation();
       });
 
-      it('stringifies its content', () => {
-        expect(validation.toString()).to.eq('required');
+      it('should stringifiy its content', () => {
+        expect(validation.toString()).to.equal('required');
       });
     });
     context('with a value', () => {
@@ -76,28 +76,18 @@ describe('JDLValidation', () => {
         validation = new JDLValidation(args);
       });
 
-      it('stringifies its content', () => {
-        expect(validation.toString()).to.eq(`${args.name}(${args.value})`);
+      it('should stringifiy its content', () => {
+        expect(validation.toString()).to.equal(`${args.name}(${args.value})`);
       });
     });
     context('when exporting a regexp pattern', () => {
-      it('properly formats it', () => {
+      it('should format it', () => {
         expect(
           new JDLValidation({
             name: Validations.PATTERN,
             value: '[A-z0-9]'
           }).toString()
         ).to.equal('pattern(/[A-z0-9]/)');
-      });
-    });
-    context('when exporting a regexp readonly pattern', () => {
-      it('properly formats it', () => {
-        expect(
-          new JDLValidation({
-            name: Validations.READONLY,
-            value: '[A-z0-9]'
-          }).toString()
-        ).to.equal('readonly(/[A-z0-9]/)');
       });
     });
   });

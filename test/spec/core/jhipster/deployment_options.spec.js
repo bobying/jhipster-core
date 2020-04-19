@@ -25,19 +25,19 @@ const { DeploymentTypes, Options } = require('../../../../lib/core/jhipster/depl
 
 describe('DeploymentOptions', () => {
   describe('DeploymentTypes', () => {
-    describe('::exists', () => {
+    describe('exists', () => {
       context('when passing a nil arg', () => {
-        it('returns false', () => {
+        it('should return false', () => {
           expect(DeploymentTypes.exists()).to.be.false;
         });
       });
       context('when passing an invalid type', () => {
-        it('returns false', () => {
+        it('should return false', () => {
           expect(DeploymentTypes.exists('NotAType')).to.be.false;
         });
       });
       context('when passing a valid type', () => {
-        it('returns true', () => {
+        it('should return true', () => {
           expect(DeploymentTypes.exists(DeploymentTypes.DOCKERCOMPOSE)).to.be.true;
           expect(DeploymentTypes.exists(DeploymentTypes.KUBERNETES)).to.be.true;
         });
@@ -46,7 +46,7 @@ describe('DeploymentOptions', () => {
   });
 
   describe('Options', () => {
-    describe('::defaults', () => {
+    describe('defaults', () => {
       context('when passing no args', () => {
         it('should return docker deployment config', () => {
           expect(Options.defaults()).to.eql({

@@ -22,19 +22,19 @@ const { expect } = require('chai');
 const UnaryOptions = require('../../../../lib/core/jhipster/unary_options');
 
 describe('UnaryOptions', () => {
-  describe('::exists', () => {
+  describe('exists', () => {
     context('when checking for a valid unary option', () => {
-      it('returns true', () => {
+      it('should return true', () => {
         expect(UnaryOptions.exists(UnaryOptions.SKIP_CLIENT)).to.be.true;
       });
     });
     context('when checking for an invalid unary option', () => {
-      it('returns false', () => {
+      it('should return false', () => {
         expect(UnaryOptions.exists('NOTHING')).to.be.false;
       });
     });
   });
-  describe('::forEach', () => {
+  describe('forEach', () => {
     context('when not passing a function', () => {
       it('should fail', () => {
         expect(() => UnaryOptions.forEach()).to.throw(/^A function has to be passed to loop over the unary options\.$/);
@@ -49,14 +49,7 @@ describe('UnaryOptions', () => {
       });
 
       it('should loop over the unary options', () => {
-        expect(result).to.deep.equal([
-          'webService',
-          'skipClient',
-          'skipServer',
-          'noFluentMethod',
-          'readOnly',
-          'filter'
-        ]);
+        expect(result).to.deep.equal(['skipClient', 'skipServer', 'noFluentMethod', 'readOnly', 'filter', 'embedded']);
       });
     });
   });

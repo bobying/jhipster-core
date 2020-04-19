@@ -1,4 +1,72 @@
-# Latest: v6.0.7
+# Latest: v7.2.1
+
+## Bug fix:
+  - Fixed bug when parsing a JDL content with no entity     
+    - The failing cases happened when parsing applications without entities, and it failed because we wanted to export no entities.
+
+___
+
+# v7.2.0
+
+## What's new
+  - JDL:
+    - Options like `dto` or `service` can now be declared inside applications, with no change in the syntax.
+  - The `.yo-rc.json` file generation can now be skipped (by passing `skipYoRcGeneration` to the JDL importer, 
+    thanks to @mshima).
+  - There won't be any thrown error if a JDL content contains an unknown option value. Instead, a message will be
+    displayed (thanks to @SudharakaP).
+
+## Bug fixes
+  - When not generating entity files (in the .jhipster folder), JHipster Core won't generate the .jhipster folder if
+    didn't already exist (thanks to @mshima).
+
+## Minor improvements
+  - Exported JSON files are now formatted as JHipster does (thanks to @mshima).
+
+---
+
+# v7.1.0
+
+## What's new
+  - `Authority` is now allowed as a special relationship source/destination, just like `User` (thanks to @xetys for
+    this feature!)
+    - It's also a JHipster-managed entity.
+  - Added the `ZonedDateTime` and `ByteBuffer` field types for Cassandra (thanks @SudharakaP for taking this issue and
+    making this happen!)
+  - Added the `couchbase` as application option value for `searchEngine`
+
+## Bug fixes
+  - Importing a JDL file now takes into account existing `.yo-rc.json` files
+    - For instance, if an existing application has the `skipUserManagement` option set, then this will be taken into
+      account when reading entities/relationships.
+    - A previous workaround consisted in exporting, modifying and finally re-importing a single JDL file.
+
+---
+
+# v7.0.0
+
+## Breaking changes
+  - API:
+    - Replaced the `MonolithJDLApplication`, and other concrete classes related to JDL applications by the JDLApplication
+      class.
+      - Check [this](https://github.com/jhipster/jhipster-core/commit/09647308ff12552243377b805bc130499a62d99b) commit for
+        more details.
+    - Kept the previous API instead of the new one as the new API didn't really solve the "bloated API problem"
+      (nothing changes if you didn't change your code).
+
+## What's new
+  - JDL:
+    - Allowed integers & decimal when using annotations, and also for constants (thanks to @murdos for the request!).
+    - Disallowed apps with non-SQL DB types and with the hibernate cache enabled (thanks to @Falydoor for the report!).
+    - Added the `embedded` option (thanks to @tchlyah for the feature!)
+  - Neo4j has been added as a new database type! (thanks to @atomfrede for this feature!)
+
+## Bug fixes
+  - Set the `enableHibernateCache` to false when having non-SQL dbs (thanks to @Falydoor for the report!).
+
+---
+
+# v6.0.7
 
 ## What's new:
   - JDL:

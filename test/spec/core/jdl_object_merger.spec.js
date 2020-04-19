@@ -18,13 +18,13 @@
  */
 
 const { expect } = require('chai');
-const ApplicationOptions = require('../../../lib/core/jhipster/application_options');
+const { OptionNames } = require('../../../lib/core/jhipster/application_options');
 const ApplicationTypes = require('../../../lib/core/jhipster/application_types');
 const FieldTypes = require('../../../lib/core/jhipster/field_types');
 const UnaryOptions = require('../../../lib/core/jhipster/unary_options');
 const RelationshipTypes = require('../../../lib/core/jhipster/relationship_types');
 const JDLObject = require('../../../lib/core/jdl_object');
-const JDLMonolithApplication = require('../../../lib/core/jdl_monolith_application');
+const { createJDLApplication } = require('../../../lib/core/jdl_application_factory');
 const JDLEntity = require('../../../lib/core/jdl_entity');
 const JDLField = require('../../../lib/core/jdl_field');
 const JDLEnum = require('../../../lib/core/jdl_enum');
@@ -90,12 +90,10 @@ describe('JDLObjectMerger', () => {
 
 function createFirstJDLObjectForTheMergeTest() {
   const jdlObject = new JDLObject();
-  const application = new JDLMonolithApplication({
-    config: {
-      applicationType: ApplicationTypes.MONOLITH,
-      baseName: 'anApp',
-      databaseType: 'sql'
-    }
+  const application = createJDLApplication({
+    applicationType: ApplicationTypes.MONOLITH,
+    baseName: 'anApp',
+    databaseType: 'sql'
   });
   const entityA = new JDLEntity({
     name: 'A'
@@ -118,7 +116,7 @@ function createFirstJDLObjectForTheMergeTest() {
     values: [{ key: 'AAA' }, { key: 'BBB' }]
   });
   const option = new JDLUnaryOption({
-    name: ApplicationOptions.names.SKIP_USER_MANAGEMENT,
+    name: OptionNames.SKIP_USER_MANAGEMENT,
     entityNames: [entityA.name, entityB.name]
   });
   entityA.addField(fieldForA);
@@ -133,12 +131,10 @@ function createFirstJDLObjectForTheMergeTest() {
 
 function createSecondJDLObjectForTheMergeTest() {
   const jdlObject = new JDLObject();
-  const application = new JDLMonolithApplication({
-    config: {
-      applicationType: ApplicationTypes.MONOLITH,
-      baseName: 'anotherApp',
-      databaseType: 'sql'
-    }
+  const application = createJDLApplication({
+    applicationType: ApplicationTypes.MONOLITH,
+    baseName: 'anotherApp',
+    databaseType: 'sql'
   });
   const entityC = new JDLEntity({
     name: 'C'
