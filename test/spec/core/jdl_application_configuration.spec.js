@@ -299,6 +299,7 @@ jhiPrefix prefix
         });
       });
     });
+// added by yingmingbo
     context('when the configuration has the blueprints option', () => {
       let configuration;
 

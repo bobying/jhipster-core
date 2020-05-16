@@ -68,6 +68,7 @@ describe('TokenCreator', () => {
           expect(token.LABEL).to.equal("'pattern'");
         });
       });
+// added by yingmingbo
       context('if there is no label but a readonly', () => {
         let token;
 

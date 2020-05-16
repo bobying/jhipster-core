@@ -2,7 +2,6 @@
   "cache": true,
   "check-coverage": true,
   "exclude": [
-    "lib/parsers/entity_parser.js",
     "lib/dsl/gen/*.js",
     "lib/dsl/self_checks/*.js",
     "test/**/*.js"

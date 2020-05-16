@@ -47,6 +47,7 @@ describe('JSONToJDLConverter', () => {
     applicationType microservice
     authenticationType jwt
     baseName truc
+    blueprints [generator-jhipster-vuejs, generator-jhipster-dotnetcore]
     buildTool maven
     cacheProvider hazelcast
     clientPackageManager npm
@@ -116,6 +117,7 @@ describe('JSONToJDLConverter', () => {
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
+// added by yingmingbo
     webService false
     skipClient true
     skipUserManagement true
@@ -246,6 +248,7 @@ paginate Country with pager
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
+// added by yingmingbo
     webService false
     skipClient true
     skipUserManagement true
@@ -281,6 +284,7 @@ application {
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
+// added by yingmingbo
     webService false
     skipClient true
     skipUserManagement true
@@ -316,6 +320,7 @@ application {
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
+// added by yingmingbo
     webService false
     skipClient true
     skipUserManagement true

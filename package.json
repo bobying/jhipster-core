@@ -1,44 +1,27 @@
 {
-  "name": "jhipster-core",
-  "version": "8.0.0",
-  "description": "JHipster's own domain language and core objects",
-  "main": "module/index.js",
-  "keywords": [
-    "JHipster",
-    "DSL",
-    "JDL"
+  "_from": "jhipster-core@7.1.1",
+  "_id": "jhipster-core@7.1.1",
+  "_inBundle": false,
+  "_integrity": "sha1-ZPnQnXgAO8FjlEothHcSNNkoigA=",
+  "_location": "/generator-jhipster/jhipster-core",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "jhipster-core@7.1.1",
+    "name": "jhipster-core",
+    "escapedName": "jhipster-core",
+    "rawSpec": "7.1.1",
+    "saveSpec": null,
+    "fetchSpec": "7.1.1"
+  },
+  "_requiredBy": [
+    "/generator-jhipster"
   ],
-  "scripts": {
-    "bundle": "node ./scripts/bundle.js && webpack",
-    "diagrams": "node ./scripts/serialize_grammar.js && eslint lib/dsl/gen/generated_serialized_grammar.js --fix",
-    "lint": "eslint . --fix",
-    "lint-fix": "npm run lint -- --fix",
-    "posttest": "nyc --reporter=text-summary report",
-    "prepare": "npm run test && npm run diagrams && npm run bundle",
-    "release": "git push && git push --tags && npm publish",
-    "commit-dist": "git add dist && git add lib/dsl/gen && git commit --allow-empty -m \"Update dist\"",
-    "release-patch": "npm run commit-dist && npm version patch -a -m \"Update to %s\" && npm run release",
-    "release-minor": "npm run commit-dist && npm version minor -a -m \"Update to %s\" && npm run release",
-    "release-major": "npm run commit-dist && npm version major -a -m \"Update to %s\" && npm run release",
-    "test": "npm run lint && nyc mocha",
-    "test:watch": "mocha --watch --reporter min"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run test"
-    }
-  },
-  "lint-staged": {
-    "{lib,module,scripts,test}/*.js": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "homepage": "https://github.com/jhipster/jhipster-core",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jhipster/jhipster-core.git"
-  },
+  "_resolved": "https://registry.npm.taobao.org/jhipster-core/download/jhipster-core-7.1.1.tgz",
+  "_shasum": "64f9d09d78003bc163944a2d84771234d9288a00",
+  "_spec": "jhipster-core@7.1.1",
+  "_where": "/usr/local/lib/node_modules/generator-jhipster",
   "author": {
     "name": "Mathieu Abou-Aichi",
     "email": "mathieu.abou-aichi@jhipster.tech",
@@ -47,40 +30,82 @@
   "bugs": {
     "url": "https://github.com/jhipster/jhipster-core/issues"
   },
-  "license": "Apache-2.0",
-  "licenses": [
-    {
-      "type": "Apache 2.0"
-    }
-  ],
+  "bundleDependencies": false,
   "dependencies": {
     "chevrotain": "6.5.0",
     "fs-extra": "8.1.0",
     "lodash": "4.17.15",
     "winston": "3.2.1"
   },
+  "deprecated": false,
+  "description": "JHipster's own domain language and core objects",
   "devDependencies": {
     "chai": "4.2.0",
     "eslint": "6.8.0",
-    "eslint-config-airbnb-base": "14.1.0",
-    "eslint-config-prettier": "6.10.1",
-    "eslint-plugin-import": "2.20.2",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "6.10.0",
+    "eslint-plugin-import": "2.20.1",
     "eslint-plugin-mocha": "6.3.0",
     "eslint-plugin-prettier": "3.1.2",
     "husky": "4.2.3",
-    "lint-staged": "10.1.2",
-    "mocha": "7.1.1",
-    "nyc": "15.0.1",
+    "lint-staged": "10.0.8",
+    "mocha": "7.1.0",
+    "nyc": "15.0.0",
     "prettier": "1.19.1",
-    "sinon": "9.0.1",
+    "sinon": "9.0.0",
     "sinon-chai": "3.5.0",
     "terser-webpack-plugin": "2.3.5",
-    "webpack": "4.42.1",
+    "webpack": "4.41.6",
     "webpack-cli": "3.3.11"
   },
-  "peerDependencies": {},
   "engines": {
     "node": ">=8.10.0",
     "npm": ">=5.6.0"
-  }
+  },
+  "homepage": "https://github.com/jhipster/jhipster-core",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run test"
+    }
+  },
+  "keywords": [
+    "JHipster",
+    "DSL",
+    "JDL"
+  ],
+  "license": "Apache-2.0",
+  "licenses": [
+    {
+      "type": "Apache 2.0"
+    }
+  ],
+  "lint-staged": {
+    "{lib,module,scripts,test}/*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "main": "module/index.js",
+  "name": "jhipster-core",
+  "peerDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhipster/jhipster-core.git"
+  },
+  "scripts": {
+    "bundle": "node ./scripts/bundle.js && webpack",
+    "commit-dist": "git add dist && git add lib/dsl/gen && git commit --allow-empty -m \"Update dist\"",
+    "diagrams": "node ./scripts/serialize_grammar.js && eslint lib/dsl/gen/generated_serialized_grammar.js --fix",
+    "lint": "eslint .",
+    "lint-fix": "npm run lint -- --fix",
+    "posttest": "nyc --reporter=text-summary report",
+    "prepare": "npm run test && npm run diagrams && npm run bundle",
+    "release": "git push && git push --tags && npm publish",
+    "release-major": "npm run commit-dist && npm version major -a -m \"Update to %s\" && npm run release",
+    "release-minor": "npm run commit-dist && npm version minor -a -m \"Update to %s\" && npm run release",
+    "release-patch": "npm run commit-dist && npm version patch -a -m \"Update to %s\" && npm run release",
+    "test": "npm run lint && nyc mocha",
+    "test:watch": "mocha --watch --reporter min"
+  },
+  "version": "7.1.1"
 }

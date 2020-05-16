@@ -656,6 +656,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.tata',
             packageFolder: 'com/mathieu/tata',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -693,6 +694,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.titi',
             packageFolder: 'com/mathieu/titi',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -730,6 +732,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.toto',
             packageFolder: 'com/mathieu/toto',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -762,6 +765,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.tutu',
             packageFolder: 'com/mathieu/tutu',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -832,6 +836,7 @@ relationship OneToOne {
             packageName: 'com.mycompany.myfirstapp',
             packageFolder: 'com/mycompany/myfirstapp',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             enableHibernateCache: true,
@@ -869,6 +874,7 @@ relationship OneToOne {
             packageName: 'com.mycompany.myapp',
             packageFolder: 'com/mycompany/myapp',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             enableHibernateCache: true,
@@ -901,6 +907,7 @@ relationship OneToOne {
             packageName: 'com.mycompany.myapp',
             packageFolder: 'com/mycompany/myapp',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             enableHibernateCache: true,
@@ -1173,6 +1180,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.tata',
             packageFolder: 'com/mathieu/tata',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -1210,6 +1218,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.titi',
             packageFolder: 'com/mathieu/titi',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -1247,6 +1256,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.toto',
             packageFolder: 'com/mathieu/toto',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -1279,6 +1289,7 @@ relationship OneToOne {
             packageName: 'com.mathieu.tutu',
             packageFolder: 'com/mathieu/tutu',
             authenticationType: 'jwt',
+// added by yingmingbo
             webService: false,
             websocket: false,
             databaseType: 'sql',
@@ -1458,6 +1469,7 @@ relationship OneToOne {
             skipClient: false,
             skipServer: false,
             testFrameworks: ['protractor'],
+// added by yingmingbo
             webService: false,
             websocket: false,
             baseName: 'store',
@@ -1503,6 +1515,7 @@ relationship OneToOne {
             serviceDiscoveryType: false,
             skipClient: true,
             testFrameworks: [],
+// added by yingmingbo
             webService: false,
             websocket: false,
             baseName: 'product',
@@ -1535,6 +1548,7 @@ relationship OneToOne {
             serviceDiscoveryType: false,
             skipClient: true,
             testFrameworks: [],
+// added by yingmingbo
             webService: false,
             websocket: false,
             baseName: 'invoice',
@@ -1567,6 +1581,7 @@ relationship OneToOne {
             serviceDiscoveryType: false,
             skipClient: true,
             testFrameworks: [],
+// added by yingmingbo
             webService: false,
             websocket: false,
             baseName: 'notification',
@@ -1878,6 +1893,61 @@ paginate * with infinite-scroll
       });
       it('should not create the .jhipster folder', () => {
         expect(fse.existsSync('.jhipster')).to.be.false;
+      });
+    });
+    context('when importing a JDL application with blueprints', () => {
+      let importState;
+
+      before(() => {
+        const importer = createImporterFromFiles([path.join('test', 'test_files', 'application_with_blueprints.jdl')], {
+          creationTimestamp: '2019-01-01'
+        });
+        importState = importer.import();
+      });
+      after(() => {
+        fse.removeSync('.yo-rc.json');
+      });
+
+      it('should return the blueprints attributes in the application', () => {
+        expect(importState.exportedApplications).to.deep.equal([
+          {
+            entities: [],
+            'generator-jhipster': {
+              applicationType: 'monolith',
+              authenticationType: 'jwt',
+              baseName: 'appWithBlueprints',
+              blueprints: [{ name: 'generator-jhipster-vuejs' }, { name: 'generator-jhipster-dotnetcore' }],
+              buildTool: 'maven',
+              cacheProvider: 'ehcache',
+              clientFramework: 'angularX',
+              clientPackageManager: 'npm',
+              clientTheme: 'none',
+              clientThemeVariant: '',
+              creationTimestamp: 1546300800000,
+              databaseType: 'sql',
+              devDatabaseType: 'h2Disk',
+              enableHibernateCache: true,
+              enableSwaggerCodegen: false,
+              enableTranslation: true,
+              jhiPrefix: 'jhi',
+              languages: ['en', 'fr'],
+              messageBroker: false,
+              nativeLanguage: 'en',
+              packageFolder: 'com/mycompany/myapp',
+              packageName: 'com.mycompany.myapp',
+              prodDatabaseType: 'mysql',
+              searchEngine: false,
+              serverPort: '8080',
+              serviceDiscoveryType: false,
+              skipClient: false,
+              skipServer: false,
+              skipUserManagement: false,
+              testFrameworks: [],
+              useSass: true,
+              websocket: false
+            }
+          }
+        ]);
       });
     });
   });

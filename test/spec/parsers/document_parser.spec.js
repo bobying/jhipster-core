@@ -514,6 +514,7 @@ describe('DocumentParser', () => {
             skipServer: false,
             skipUserManagement: false,
             useSass: true,
+// added by yingmingbo
             webService: false,
             websocket: false
           });

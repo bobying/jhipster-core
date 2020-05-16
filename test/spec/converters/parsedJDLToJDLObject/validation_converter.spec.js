@@ -100,6 +100,7 @@ describe('ValidationConverter', () => {
           });
         });
       });
+// added by yingmingbo
       context('having for name the readonly validation', () => {
         context('with the readonly not having single quotes', () => {
           let valueFromTheConvertedValidation;

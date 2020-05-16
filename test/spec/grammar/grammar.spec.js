@@ -30,6 +30,7 @@ const {
   MINBYTES,
   MINLENGTH,
   PATTERN,
+// added by yingmingbo
   READONLY,
   REQUIRED,
   UNIQUE
@@ -96,29 +97,79 @@ MAX = 43`);
       });
     });
     context('with a custom configuration', () => {
-      let application;
+      context('when setting the applicationType', () => {
+        let application;
 
-      before(() => {
-        const content = parseFromContent(`application {
+        before(() => {
+          const content = parseFromContent(`application {
   config {
-    baseName superApp
     applicationType monolith
   }
 }`);
-        application = content.applications[0];
-      });
+          application = content.applications[0];
+        });
 
-      it('should parse it', () => {
-        expect(application).to.deep.equal({
-          config: {
-            baseName: 'superApp',
-            applicationType: 'monolith'
-          },
-          entities: {
-            entityList: [],
-            excluded: []
-          },
-          options: {}
+        it('should parse it', () => {
+          expect(application).to.deep.equal({
+            config: {
+              applicationType: 'monolith'
+            },
+            entities: {
+              entityList: [],
+              excluded: []
+            },
+            options: {}
+          });
+        });
+      });
+      context('when setting the baseName', () => {
+        let application;
+
+        before(() => {
+          const content = parseFromContent(`application {
+  config {
+    baseName toto
+  }
+}`);
+          application = content.applications[0];
+        });
+
+        it('should parse it', () => {
+          expect(application).to.deep.equal({
+            config: {
+              baseName: 'toto'
+            },
+            entities: {
+              entityList: [],
+              excluded: []
+            },
+            options: {}
+          });
+        });
+      });
+      context('when setting the blueprints', () => {
+        let application;
+
+        before(() => {
+          const content = parseFromContent(`application {
+  config {
+    blueprints [generator-jhipster-vuejs, generator-jhipster-nodejs]
+  }
+}`);
+          application = content.applications[0];
+        });
+
+        it('should parse it', () => {
+          expect(application).to.deep.equal({
+            config: {
+              blueprints: ['generator-jhipster-vuejs', 'generator-jhipster-nodejs']
+            },
+            entities: {
+              entityList: [],
+              excluded: []
+            },
+            options: {}
+          });
         });
       });
     });
@@ -883,6 +934,177 @@ entity A {
                 constant: true
               }
             ]);
+          });
+        });
+      });
+    });
+  });
+  context('when parsing enums', () => {
+    context('with values separated by commas', () => {
+      let parsedEnum;
+
+      before(() => {
+        const content = parseFromContent(
+          `enum MyEnum {
+  FRANCE,
+  ENGLAND,
+  ICELAND
+}
+`
+        );
+        parsedEnum = content.enums[0];
+      });
+
+      it('should parse them', () => {
+        expect(parsedEnum).to.deep.equal({
+          name: 'MyEnum',
+          values: [
+            {
+              key: 'FRANCE'
+            },
+            {
+              key: 'ENGLAND'
+            },
+            {
+              key: 'ICELAND'
+            }
+          ]
+        });
+      });
+    });
+    context('with values separated by whitespaces', () => {
+      let parsedEnum;
+
+      before(() => {
+        const content = parseFromContent(
+          `enum MyEnum {
+  FRANCE ENGLAND("aaa bbb ccc") ICELAND
+  GERMANY
+}
+`
+        );
+        parsedEnum = content.enums[0];
+      });
+
+      it('should parse them', () => {
+        expect(parsedEnum).to.deep.equal({
+          name: 'MyEnum',
+          values: [
+            {
+              key: 'FRANCE'
+            },
+            {
+              key: 'ENGLAND',
+              value: 'aaa bbb ccc'
+            },
+            {
+              key: 'ICELAND'
+            },
+            {
+              key: 'GERMANY'
+            }
+          ]
+        });
+      });
+    });
+    context('without custom values', () => {
+      let parsedEnum;
+
+      before(() => {
+        const content = parseFromContent(
+          `enum MyEnum {
+  FRANCE,
+  ENGLAND,
+  ICELAND
+}
+`
+        );
+        parsedEnum = content.enums[0];
+      });
+
+      it('should parse it', () => {
+        expect(parsedEnum).to.deep.equal({
+          name: 'MyEnum',
+          values: [
+            {
+              key: 'FRANCE'
+            },
+            {
+              key: 'ENGLAND'
+            },
+            {
+              key: 'ICELAND'
+            }
+          ]
+        });
+      });
+    });
+    context('without values', () => {
+      context('without spaces', () => {
+        let parsedEnum;
+
+        before(() => {
+          const content = parseFromContent(
+            `enum MyEnum {
+  FRANCE (cheese_and_wine_country),
+  ENGLAND (not_a_tea_country),
+  ICELAND
+}
+`
+          );
+          parsedEnum = content.enums[0];
+        });
+
+        it('should parse it', () => {
+          expect(parsedEnum).to.deep.equal({
+            name: 'MyEnum',
+            values: [
+              {
+                key: 'FRANCE',
+                value: 'cheese_and_wine_country'
+              },
+              {
+                key: 'ENGLAND',
+                value: 'not_a_tea_country'
+              },
+              {
+                key: 'ICELAND'
+              }
+            ]
+          });
+        });
+      });
+      context('with spaces', () => {
+        let parsedEnum;
+
+        before(() => {
+          const content = parseFromContent(
+            `enum MyEnum {
+  FRANCE ("cheese and wine country"),
+  ENGLAND ("not a tea country"),
+  ICELAND
+}
+`
+          );
+          parsedEnum = content.enums[0];
+        });
+
+        it('should parse it', () => {
+          expect(parsedEnum).to.deep.equal({
+            name: 'MyEnum',
+            values: [
+              {
+                key: 'FRANCE',
+                value: 'cheese and wine country'
+              },
+              {
+                key: 'ENGLAND',
+                value: 'not a tea country'
+              },
+              {
+                key: 'ICELAND'
+              }
+            ]
           });
         });
       });

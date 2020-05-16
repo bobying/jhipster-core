@@ -1,9 +1,7 @@
 {
-  "arrowParens": "avoid",
-  "printWidth": 120,
-  "semi": true,
   "tabWidth": 2,
-  "trailingComma": "none",
+  "semi": true,
+  "printWidth": 120,
   "overrides": [{
     "files": "*.js",
     "options": {

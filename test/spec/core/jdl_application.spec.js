@@ -583,6 +583,7 @@ describe('JDLApplication', () => {
         });
       });
     });
+// added by yingmingbo
     context('when the blueprints option is present', () => {
       let result;
 
