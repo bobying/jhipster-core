@@ -133,6 +133,10 @@ describe('JDL DSL API', () => {
           tokens.DEPLOYMENT,
           tokens.NAME,
           tokens.ENTITY,
+// added begin by yingmingbo
+          tokens.DATASET,
+          tokens.DATASET_BODY,
+// added end by yingmingbo
           tokens.RELATIONSHIP,
           tokens.ENUM,
           tokens.JAVADOC,
