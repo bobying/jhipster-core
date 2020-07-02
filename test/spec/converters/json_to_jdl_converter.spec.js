@@ -117,8 +117,9 @@ describe('JSONToJDLConverter', () => {
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
-// added by yingmingbo
+// added begin by yingmingbo
     webService false
+// added end by yingmingbo
     skipClient true
     skipUserManagement true
     testFrameworks []
@@ -248,8 +249,9 @@ paginate Country with pager
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
-// added by yingmingbo
+// added begin by yingmingbo
     webService false
+// added end by yingmingbo
     skipClient true
     skipUserManagement true
     testFrameworks []
@@ -284,8 +286,9 @@ application {
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
-// added by yingmingbo
+// added begin by yingmingbo
     webService false
+// added end by yingmingbo
     skipClient true
     skipUserManagement true
     testFrameworks []
@@ -320,8 +323,9 @@ application {
     searchEngine false
     serverPort 8081
     serviceDiscoveryType eureka
-// added by yingmingbo
+// added begin by yingmingbo
     webService false
+// added end by yingmingbo
     skipClient true
     skipUserManagement true
     testFrameworks []

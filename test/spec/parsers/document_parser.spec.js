@@ -514,8 +514,9 @@ describe('DocumentParser', () => {
             skipServer: false,
             skipUserManagement: false,
             useSass: true,
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false
           });
         });

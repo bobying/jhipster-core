@@ -656,8 +656,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.tata',
             packageFolder: 'com/mathieu/tata',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -694,8 +695,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.titi',
             packageFolder: 'com/mathieu/titi',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -732,8 +734,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.toto',
             packageFolder: 'com/mathieu/toto',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -765,8 +768,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.tutu',
             packageFolder: 'com/mathieu/tutu',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -836,8 +840,9 @@ relationship OneToOne {
             packageName: 'com.mycompany.myfirstapp',
             packageFolder: 'com/mycompany/myfirstapp',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             enableHibernateCache: true,
             databaseType: 'sql',
@@ -874,8 +879,9 @@ relationship OneToOne {
             packageName: 'com.mycompany.myapp',
             packageFolder: 'com/mycompany/myapp',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             enableHibernateCache: true,
             databaseType: 'sql',
@@ -907,8 +913,9 @@ relationship OneToOne {
             packageName: 'com.mycompany.myapp',
             packageFolder: 'com/mycompany/myapp',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             enableHibernateCache: true,
             databaseType: 'sql',
@@ -1180,8 +1187,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.tata',
             packageFolder: 'com/mathieu/tata',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -1218,8 +1226,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.titi',
             packageFolder: 'com/mathieu/titi',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -1256,8 +1265,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.toto',
             packageFolder: 'com/mathieu/toto',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -1289,8 +1299,9 @@ relationship OneToOne {
             packageName: 'com.mathieu.tutu',
             packageFolder: 'com/mathieu/tutu',
             authenticationType: 'jwt',
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             databaseType: 'sql',
             devDatabaseType: 'h2Disk',
@@ -1469,8 +1480,9 @@ relationship OneToOne {
             skipClient: false,
             skipServer: false,
             testFrameworks: ['protractor'],
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             baseName: 'store',
             applicationType: 'gateway',
@@ -1515,8 +1527,9 @@ relationship OneToOne {
             serviceDiscoveryType: false,
             skipClient: true,
             testFrameworks: [],
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             baseName: 'product',
             applicationType: 'microservice',
@@ -1548,8 +1561,9 @@ relationship OneToOne {
             serviceDiscoveryType: false,
             skipClient: true,
             testFrameworks: [],
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             baseName: 'invoice',
             applicationType: 'microservice',
@@ -1581,8 +1595,9 @@ relationship OneToOne {
             serviceDiscoveryType: false,
             skipClient: true,
             testFrameworks: [],
-// added by yingmingbo
+// added begin by yingmingbo
             webService: false,
+// added end by yingmingbo
             websocket: false,
             baseName: 'notification',
             applicationType: 'microservice',
