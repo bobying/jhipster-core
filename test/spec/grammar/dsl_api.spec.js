@@ -135,7 +135,6 @@ describe('JDL DSL API', () => {
           tokens.ENTITY,
 // added begin by yingmingbo
           tokens.DATASET,
-          tokens.DATASET_BODY,
           tokens.DATA_BLOCK,
 // added end by yingmingbo
           tokens.RELATIONSHIP,
